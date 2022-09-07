@@ -1,7 +1,5 @@
-#include <stdio.h>'
+#include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-#include <time.h>
 
 /*
 문제해결기법 1주차 과제
