@@ -16,17 +16,24 @@ circuut switching 은, 반드시 사용하려는 link의 circuit을 예약해야
 
 0%. 불가능하다. 세 명의 유저가 동시에 전송을 하게 되면, circuit를 3개를 예약해야 하는데 공유 link의 최대 수용량은 2Mbps이므로 불가능하다.
 
+> 수정
+> packet switching 을 사용한다. 각 사용자가 link를 사용할 확률이 0.2 이므로, 세명의 사용자가 동시에 사용할 확률은 0.2^3 = 0.008 이며 퍼센트로 따지면 0.8% 이다.
+
 ## 4. Consider the link between A and B as shown below. Host A wants to send a 1000-bit packet to B. What is the transmission delay and propagation delay? Assume that the bit propagation speed is 10^6 m/s.
 
 A ----- B (100m, 1Mb/s)
 
-1Mb = 8 \* 10^6 bit
+1Mbps = 8 \* 10^6 bps
 
 Transmission delay = L(L-bit packet) / R(R-bps) second
-= 10^3 / 8 _ 10^6 sec
-= 1 / 8 _ 10^3 sec
+= 10^3 / 8 \* 10^6 sec
+= 1 / 8 \_ 10^3 sec
 = 1 / 8 msec
 = 0.125 msec
+
+> 수정
+> 1Mbps = 10^6 bps
+> = 1 ms
 
 propagation delay = length of physical link(m) / propagation speed(m/sec)
 = 100 / 10^6 sec
