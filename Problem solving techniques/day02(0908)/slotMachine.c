@@ -4,6 +4,8 @@
 #include <time.h>
 
 /*
+    문제해결기법 과제
+
     슬롯머신 프로그래밍
 
     세개의 슬롯, 각 슬롯은 BAR, BELL, LEMON, CHERRY 가 가능하다
@@ -11,8 +13,6 @@
     1. CHERRY 3개 == JACKPOT
     2. CHERRY 1개 == One Dime
     3. CHERRY 제외 다른 것 세개 == Nickel
-
-    각 슬롯의 단어를 0,1,2,3에 대입시키면 될 것 같다.
 */
 
 #define BAR 0
@@ -46,19 +46,17 @@ char *returnEntity(int machine[], int index)
 {
     switch (machine[index])
     {
-    case 0:
+    case BAR:
         return "BAR";
         break;
-    case 1:
+    case BELL:
         return "BELL";
         break;
-    case 2:
+    case LEMON:
         return "LEMON";
         break;
-    case 3:
+    case CHERRY:
         return "CHERRY";
-        break;
-    default:
         break;
     }
     return NULL;
@@ -69,11 +67,12 @@ void printResult(int machine[], int flag)
     printf("Welcome to KW Land\n");
     printf("Please pull the slot machine !!\n\n");
 
-    // 일단 각 슬롯에 들어간 엔티티를 출력한다.
-    printf("First is %s\n", returnEntity(machine, SLOT_1));
+    // 일단 각 슬롯에 들어간 정보를 출력한다.
+    printf("First is  %s\n", returnEntity(machine, SLOT_1));
     printf("Second is %s\n", returnEntity(machine, SLOT_2));
-    printf("Third is %s\n\n", returnEntity(machine, SLOT_3));
+    printf("Third is  %s\n\n", returnEntity(machine, SLOT_3));
 
+    // 대강 10자리 문자열 포인터 생성해준다.
     char *msg = malloc(sizeof(char) * 10);
 
     switch (flag)
@@ -98,19 +97,22 @@ void printResult(int machine[], int flag)
 void searchSlot(int machine[])
 {
     int flag = NOTHING;
+
+    // 세 개가 모두 같을 경우
     if (machine[SLOT_1] == machine[SLOT_2] && machine[SLOT_2] == machine[SLOT_3])
     {
-        // 세 개가 모두 같을 경우
         // 1. 모두 CHERRY 인 경우
         if (machine[SLOT_1] == CHERRY)
         {
             flag = JACKPOT;
         }
+        // 2. 모두 CHERRY 가 아니고 세개가 모두 같을 경우
         else
         {
             flag = NICKEL;
         }
     }
+    // 세 개 중에 하나라도 체리가 있을 경우
     else if (machine[SLOT_1] == CHERRY || machine[SLOT_2] == CHERRY || machine[SLOT_3] == CHERRY)
     {
         flag = ONE_DIME;
@@ -125,7 +127,6 @@ int main()
     {
         randomSlot(slotMachine);
         searchSlot(slotMachine);
-
     } while (getchar()); // Enter을 입력받으면 계속 진행함
 
     return 0;
