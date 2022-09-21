@@ -53,15 +53,31 @@ void LCS(char str1[], char str2[], int len1, int len2)
 
     return dp[len1][len2];
 
-    시간초과. max(LCS(), LCS()) 여기에서 잦은 함수 호출이 원인인 것 같다.
+    시간초과. max(LCS(), LCS()) 에서 잦은 함수 호출이 원인인 것 같다.
     */
 
     // Solution_2
-    for (int i = 1; i <= len1; i++)
+    // Memoization을 활용한 dp. 이중 for문 O(N^2) 만에 해결 가능하다.
+
+    /*
+    아래 코드를 실행시키면 아래와 같은 표가 만들어진다.
+
+    ex)
+        A B C D E
+      0 0 0 0 0 0
+    A 0 1 1 1 1 1
+    C 0 1 1 2 2 2
+    B 0 1 2 2 2 2
+    H 0 1 2 2 2 2
+    E 0 1 2 2 2 3
+
+    */
+
+    for (int i = 1; i <= len1; i++) // 어차피 글자 길이가 0이면 진입할 필요가 없으므로 i = 1부터 시작한다.
     {
         for (int j = 1; j <= len2; j++)
         {
-            if (str1[i - 1] == str2[j - 1])
+            if (str1[i - 1] == str2[j - 1]) //
             {
                 dp[i][j] = dp[i - 1][j - 1] + 1;
             }
