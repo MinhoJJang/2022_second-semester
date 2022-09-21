@@ -46,7 +46,6 @@ int Partition(int arr[], int left, int right)
     int low = left + 1;    // low 는 피벗 오른쪽에서 시작 (index)
     int high = right;      // high 는 right 부터 시작 (index)
 
-    //
     while (low <= high)
     {
         // low 우측 이동, pivot 보다 큰 것을 만날때까지
