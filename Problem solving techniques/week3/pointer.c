@@ -17,16 +17,25 @@ int main()
     int *p2 = &p1;
     // 포인터 변수에는 어떠한 데이터값의 주소를 담을 수 있다.
 
-    printf("p1 = %d\n", p1);
-    printf("p2 = %d\n", *p2);
+    printf("p1  = %d\n", p1);
+    printf("*p2 = %d\n", *p2);
 
-    printf("p1 = %p\n", &p1);
-    printf("p2 = %p\n", p2);
+    printf("&p1 = %d\n", &p1);
+    printf("p2  = %d\n", p2);
+    printf("&p2  = %d\n", &p2);
 
-    *p2 = &p1; // 이건 p2의 데이터에 p1의 주소값을 넣겠다는 소리이다. 그러니까, 이제 p2의 주소값에 들어가있는 데이터값이 곧 p1의 주소가 된다.
+    printf("============\n");
 
-    printf("p1 = %d\n", p1);
-    printf("p2 = %d\n", *p2);
+    *p2 = &p1; // 재미난 일이 일어난다. p1에 들어가있던 10은 온데간데없고 p1의 주소값이 들어가 있다. 또 p2의 데이터값에 p1의 주소값이 들어가 있다.
+
+    printf("&p1 = %d\n", &p1);
+    printf("p1  = %d\n", p1);
+
+    printf("*p2 = %d\n", *p2);
+    printf("p2  = %d\n", p2);
+    printf("&p2 = %d\n", &p2);
+
+    // 배열
 
     int arr[MAX] = {10, 3, 5, 7, 9, 2, 4, 6, 8, 0};
     int *arr2;
@@ -45,7 +54,7 @@ int main()
     printArr(arr);
     printArr(arr2);
     printf("++*arr= %d\n", ++*arr2);
-    // arr와 arr2는 같은 배열을 공유하고 있는 상태이므로 하나를 변경하면 나머지 하나도 같이 변경됨을 볼 수 있다.
+    // arr와 arr2는 같은 배열을 가리키고 있는 상태이므로 하나를 변경하면 나머지 하나도 같이 변경됨을 볼 수 있다.
     printArr(arr);
     printArr(arr2);
 

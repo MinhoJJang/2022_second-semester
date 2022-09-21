@@ -77,13 +77,13 @@ void LCS(char str1[], char str2[], int len1, int len2)
     {
         for (int j = 1; j <= len2; j++)
         {
-            if (str1[i - 1] == str2[j - 1]) //
+            if (str1[i - 1] == str2[j - 1]) // 만약 글자가 서로 같으면 LCS가 1 늘어난다.
             {
                 dp[i][j] = dp[i - 1][j - 1] + 1;
             }
             else
             {
-                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]); // 글자가 같지 않을 경우, 둘 중에 큰 값이 선택되어서 대입하면 된다.
             }
         }
     }
