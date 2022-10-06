@@ -24,7 +24,6 @@ void getEmp(EMP em)
 
 int main()
 {
-
     EMP em1, em2;
     setEmp(&em1, "Hong Gil Dong", 22, 95000, "Running", 0);
     getEmp(em1);
