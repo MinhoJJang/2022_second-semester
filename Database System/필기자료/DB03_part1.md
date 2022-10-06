@@ -10,6 +10,7 @@ varchar(n) : not-fixed length string
 int : integer
 tinyint: 1byte integer
 numeric(p,d) ex_numeric(3,1) 32.4 O / 3.21 X
+-> 반드시 소수 아래자리는 d 자리만큼 있어야 하고, 정수부분은 최대 p-d 자리까지 가능하다.
 float(n)
 ...
 ```
@@ -87,6 +88,26 @@ ALTER TABLE ins MODIFY COLUMN name varchar(10) NOT NULL;
 
 ALTER TABLE ins CHANGE name na BIGINT NOT NULL;
 ALTER TABLE ins CHANGE na name varchar(10) NOT NULL;
+
+//
+
+ALTER table dep drop building;
+ALTER table dep modify column budget int default 10;
+Alter table dep change column A new_A int default 1000;
+
+INSERT into dep(dept_name) values
+('svdass');
+# 따로 budget에 값을 지정하지 않으면 기본값 10이 들어감
+
+ALTER table dep add attr int;
+
+alter table r1 rename r2;
+
+alter table r add A D, add primary key (A) ;
+Alter table r Add constraint A Foreign key(ID) references r2(ID);
+
+
+
 
 desc ins;
 ```
