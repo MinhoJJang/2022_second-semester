@@ -1,12 +1,13 @@
 #include <stdio.h>
 #define MAX 5
+#define INFINITE 100000
 
 int distance[MAX][MAX] = {
-    {0, 2, 0, 0, 3},
-    {0, 0, 1, 3, -1},
-    {4, 0, 0, 1, 0},
-    {0, 0, 0, 0, 1},
-    {0, 2, 3, 0, 0}};
+    {0, 2, INFINITE, INFINITE, 3},
+    {INFINITE, 0, 1, 3, -1},
+    {4, INFINITE, 0, 1, INFINITE},
+    {INFINITE, INFINITE, INFINITE, 0, 1},
+    {INFINITE, 2, 3, INFINITE, 0}};
 
 void floyd()
 {
@@ -31,7 +32,7 @@ void getDistance()
     {
         if (i == 0)
         {
-            printf("     0  1  2  3  4\n");
+            printf("    0 1 2 3 4\n");
         }
 
         printf("%d : ", i);
