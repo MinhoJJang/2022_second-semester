@@ -3,11 +3,11 @@
 #define INFINITE 100000
 
 int distance[MAX][MAX] = {
-    {0, 2, INFINITE, INFINITE, 3},
-    {INFINITE, 0, 1, 3, -1},
-    {4, INFINITE, 0, 1, INFINITE},
-    {INFINITE, INFINITE, INFINITE, 0, 1},
-    {INFINITE, 2, 3, INFINITE, 0}};
+    {0, 2, INF, INF, 3},
+    {INF, 0, 1, 3, -1},
+    {4, INF, 0, 1, INF},
+    {INF, INF, INF, 0, 1},
+    {INF, 2, 3, INF, 0}};
 
 void floyd()
 {
@@ -28,14 +28,10 @@ void floyd()
 
 void getDistance()
 {
+    printf("    a b c d e\n");
     for (int i = 0; i < MAX; i++)
     {
-        if (i == 0)
-        {
-            printf("    0 1 2 3 4\n");
-        }
-
-        printf("%d : ", i);
+        printf("%c : ", i + 97);
         for (int j = 0; j < MAX; j++)
         {
             printf("%d ", distance[i][j]);
