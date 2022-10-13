@@ -64,3 +64,5 @@ int main()
     getDistance();
     return 0;
 }
+
+// 음수 weight loop 찾는 것도 해줘야 하는데..,
