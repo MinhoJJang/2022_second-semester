@@ -30,7 +30,7 @@ void main()
     FILE *outputFile;
 
     inputFile = fopen("score.txt", "r");
-    outputFile = fopen("outpuScore.txt", "w");
+    outputFile = fopen("outpuScore.txt", "wa");
 
     if (inputFile == NULL)
         printf("\nFile Could Not Be Opened");
