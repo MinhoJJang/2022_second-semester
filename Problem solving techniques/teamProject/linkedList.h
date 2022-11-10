@@ -45,7 +45,7 @@ void list_init(List *pList)
     printf("리스트 초기화\n");
 }
 
-// 리스트 제거
+/* // 리스트 제거
 void list_destroy(List *pList)
 {
     list_init_iter(pList);
@@ -60,6 +60,7 @@ void list_destroy(List *pList)
     memset(pList, 0, sizeof(Node));
     printf("리스트 소멸\n");
 }
+*/
 
 // 데이터 추가 & 정렬된 상태의 리스트에서 위치를 찾아 삽입
 int list_add(List *pList, PersonInfo data)
@@ -103,6 +104,7 @@ int list_add(List *pList, PersonInfo data)
     return TRUE;
 }
 
+// 리스트 정렬. (나이 오름차순)
 void list_sort(List *pList)
 {
     // 링크드리스트를 나이순으로 정렬한다. Selection Sort 사용
