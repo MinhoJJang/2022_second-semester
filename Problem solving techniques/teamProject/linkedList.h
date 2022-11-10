@@ -4,13 +4,23 @@
 #include <time.h>   // clock .. 시간, 날짜 함수
 #define TRUE 1
 #define FALSE 0
+#define LEN 35
 
-typedef int Data;
+typedef struct _NODE
+{
+    int tag;
+    char registeredDate[LEN];
+    char feePaid[LEN];
+    char name[LEN];
+    int age;
+    char organization[LEN];
+    char job[LEN];
+} PersonInfo;
 
 // 노드 타입 정의
 typedef struct _node
 {
-    Data data;           // 노드 데이터
+    PersonInfo data;     // 노드 데이터
     struct _node *pNext; // 다음 노드 포인터
 } Node;
 
@@ -19,8 +29,7 @@ typedef struct _linkedList
 {
     Node *pHead;
     Node *pTail;
-
-    Node *pCurrent; // iteration 용
+    Node *pCurrent;
     int numData;
 } LinkedList;
 
@@ -29,13 +38,10 @@ typedef LinkedList List;
 // 리스트 초기화
 void list_init(List *pList)
 {
-    // head 용 dummy node 방식
     pList->pHead = (Node *)malloc(sizeof(Node));
     pList->pHead->pNext = NULL;
     pList->pTail = pList->pHead;
-
     pList->numData = 0;
-
     printf("리스트 초기화\n");
 }
 
@@ -55,14 +61,35 @@ void list_destroy(List *pList)
     printf("리스트 소멸\n");
 }
 
-// 데이터 추가
-int list_add(List *pList, Data data)
+// 데이터 추가 & 정렬된 상태의 리스트에서 위치를 찾아 삽입
+int list_add(List *pList, PersonInfo data)
 {
-
     // 새로운 node 생성
     Node *pNewNode = (Node *)malloc(sizeof(Node));
     memset(pNewNode, 0, sizeof(Node));
     pNewNode->data = data;
+
+    // 삽입된 데이터가 들어갈 위치를 찾아야 함. 이때, List는 이미 나이순으로 정렬된 상태여야 함.
+    // 1. 먼저 기존 리스트를 나이순으로 정렬한다.
+    list_sort(pList);
+
+    // 2. pHead->pNext부터 차례로, 나이를 비교한다.
+    list_init_iter(pList);
+
+    while (list_hasNext(pList))
+    {
+        // 만약 pCurrent에서 다음 노드가 존재할 경우 그 다음 노드의 age값과 새로 들어온 데이터의 age값을 비교한다.
+        // 만약 그 다음 데이터의 age 값이 더 크다면, pCurrent가 곧 pNewNode가 들어갈 자리이다.
+        if (list_next(pList).age > data.age)
+        {
+            pNewNode->pNext = pList->pCurrent->pNext;
+            pList->pCurrent->pNext = pNewNode;
+            (pList->numData)++;
+            return TRUE;
+        }
+    }
+
+    // 만약 while문이 끝날때까지 if문을 타지 않는다는 것은, 현재 들어온 노드의 나이가 가장 크다는 뜻. 그냥 맨 뒤에 추가하는 것과 같다.
 
     // tail이 가리키던 node의 next를 새로운 node에 연결
     pList->pTail->pNext = pNewNode;
@@ -76,10 +103,64 @@ int list_add(List *pList, Data data)
     return TRUE;
 }
 
+void list_sort(List *pList)
+{
+    // 링크드리스트를 나이순으로 정렬한다. Selection Sort 사용
+    int num = pList->numData;
+    for (int i = 0; i < num; i++)
+    {
+        // pList가 헤드를 가리키도록
+        // pCurrent = pHead
+        list_init_iter(pList);
+
+        // FirstNode는 계속 그 다음 노드가 되어야 하므로 pCurrent를 i번 만큼 뒤로 땡겨야 한다.
+        for (int j = 0; j < i; j++)
+        {
+            if (list_hasNext(pList))
+            {
+                pList->pCurrent = pList->pCurrent->pNext;
+            }
+        }
+
+        // 처음 노드와 선택될 노드를 생성
+        Node *firstNode = (Node *)malloc(sizeof(Node));
+        Node *selectNode = (Node *)malloc(sizeof(Node));
+        Node *tempNode = (Node *)malloc(sizeof(Node));
+        firstNode = pList->pCurrent;
+        selectNode = firstNode;
+
+        // 그 다음 노드부터 차례로 찾기
+        while (list_hasNext(pList))
+        {
+            if (pList->pCurrent->pNext->data.age < selectNode->pNext->data.age)
+            {
+                // 만약 더 작은 데이터를 찾았을 경우, 그 이전 노드를 select한다.
+                selectNode = pList->pCurrent;
+            }
+            // 현재 가리키는 노드를 그 다음 노드로 변경해준다.
+            pList->pCurrent = pList->pCurrent->pNext;
+        }
+
+        // 두 노드의 위치를 변경한다.
+
+        /*
+            firstNode의 pNext와, selectNode의 pNext를 서로 변경해야 한다.
+            서순 주의 꼬이면 망함
+        */
+
+        tempNode = selectNode;
+        selectNode->pNext->pNext = firstNode->pNext->pNext;
+        firstNode->pNext->pNext = tempNode->pNext->pNext;
+        selectNode->pNext = firstNode->pNext;
+        firstNode->pNext = tempNode->pNext;
+
+        // firstNode->000->N0-> ... ->selectNode->111->N1
+    }
+}
+
 // n번째 데이터 삭제
 int list_remove(List *pList, int n)
 {
-
     if (n >= pList->numData)
         return FALSE;
 
@@ -97,14 +178,6 @@ int list_remove(List *pList, int n)
             break;
         i++;
     }
-
-    // 위 while 문이 끝나면
-    // pCurrent 는 n번째 노드를,
-    // pPrev 는 n-1번째 노드를 가리키고 있다
-
-    // 순서 잘 생각해야 한다.  순서 바뀌면 엉망된다.
-
-    // 삭제진행: 매우 단순 (배열에 비해)
     pPrev->pNext = pList->pCurrent->pNext;
 
     // 만약 tail 이 삭제할 노드면 tail 값도 수정해야함
@@ -113,18 +186,14 @@ int list_remove(List *pList, int n)
         pList->pTail = pPrev; // tail을 이전 노드로 이동
     }
 
-    // n번째 노드 삭제, 동적 메모리 할당 해제! 꼭!
     free(pList->pCurrent);
-
     pList->numData--;
 
     return TRUE;
-
-    return 0;
 }
 
 // n번째 데이터 수정
-int list_set(List *pList, int n, Data data)
+int list_set(List *pList, int n, PersonInfo data)
 {
     if (n >= pList->numData)
         return FALSE;
@@ -163,10 +232,10 @@ void list_init_iter(List *pList)
 }
 
 // 데이터 조회, iteration 다음 데이터 추출
-Data list_next(List *pList)
+PersonInfo list_next(List *pList)
 {
-    pList->pCurrent = pList->pCurrent->pNext; // 우선 current 한발 앞으로 이동
-    Data result = pList->pCurrent->data;      // 데이터 추출
+    pList->pCurrent = pList->pCurrent->pNext;  // 우선 current 한발 앞으로 이동
+    PersonInfo result = pList->pCurrent->data; // 데이터 추출
     return result;
 }
 
@@ -180,7 +249,7 @@ int list_hasNext(List *pList)
 }
 
 // 데이터 조회 : n번째 데이터값 읽기
-int list_get(List *pList, int n, Data *pData)
+int list_get(List *pList, int n, PersonInfo *pData)
 {
 
     if (n >= pList->numData)
@@ -206,7 +275,7 @@ int list_get(List *pList, int n, Data *pData)
 }
 
 // 데이터 삽입
-int list_insert(List *pList, int n, Data data)
+int list_insert(List *pList, int n, PersonInfo data)
 {
 
     // n값 유효범위 검증
@@ -254,6 +323,7 @@ int list_insert(List *pList, int n, Data data)
     return TRUE;
 }
 
+// 리스트 출력
 void printList(List *pList)
 {
     list_init_iter(pList); // iteration 시작
@@ -264,7 +334,7 @@ void printList(List *pList)
     }
     printf("\b]\n"); // \b => backspace
 }
-
+/*
 int main()
 {
 
@@ -414,3 +484,4 @@ int main()
 
     return 0;
 }
+*/
