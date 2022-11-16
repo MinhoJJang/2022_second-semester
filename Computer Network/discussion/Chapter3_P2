@@ -1,0 +1,17 @@
+TCP ignores retransmissions when measuring SampleRTT. Discuss
+why.
+
+2 Why does TCP use fast retransmit after “3” duplicate ACKs? Why
+not after one duplicate ACK?
+
+Why does the 3-way handshake only cause 1 RTT delay instead of
+1.5 RTT?
+
+4 Discuss what happens if traffic intensity (ρ = La/R) becomes close to 1
+
+5 Explain the terms: congestion window, sending rate, bandwidth
+probing.
+
+Describe what TCP slow start means and why slow start is used.
+
+7 Explain loss-based, delay-based, and network assisted congestion contorl
