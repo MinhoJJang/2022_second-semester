@@ -32,18 +32,10 @@
 
 // 구조체 타입 배열과 리스트를 각각 생성한다.
 
-List *info_list;
-
-void printArr(PersonInfo info[], int len)
-{
-    for (int i = 0; i < len; i++)
-    {
-        printf("%d/%d-%d-%d/%s/%s/%d/%s/%s\n", info[i].tag, info[i].year, info[i].month, info[i].day, info[i].answer, info[i].name, info[i].age, info[i].organization, info[i].job);
-    }
-}
-
 int main()
 {
+    List pList;
+    list_init(&pList);
     PersonInfo info[LEN];
     FILE *inFile;
     inFile = fopen("./registration_data.txt", "r");
@@ -53,7 +45,7 @@ int main()
     */
 
     // 202033762 장민호
-    // info 배열에 데이터 삽입하기
+    // info 배열에 데이터 삽입하기_Start
     if (inFile != NULL)
     {
         int i = 0;
@@ -68,6 +60,23 @@ int main()
     }
 
     printArr(info, len);
+    // info 배열에 데이터 삽입하기_END
+
+    printf("=============================\n");
+
+    // 배열 값을 리스트에 삽입하기_Start
+    for (int i = 0; i < len; i++)
+    {
+        list_insert(&pList, info[i]);
+    }
+    printList(&pList);
+    // 배열 값을 리스트에 삽입하기_End
+
+    printf("=============================\n");
+
+    // 배열 정렬_Start
+    list_sort(&pList);
+    printList(&pList);
 
     return 0;
 }

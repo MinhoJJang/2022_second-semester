@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h> // malloc, rand, atoi ..동적메모리, 난수, 문자열 변환
 #include <string.h> //strcpy.. 문자열함수. memcpy.. 메모리블럭 함수
+#include <malloc.h>
 #define TRUE 1
 #define FALSE 0
 #define LEN 35
@@ -35,6 +36,22 @@ typedef struct _linkedList
 
 typedef LinkedList List;
 
+// 데이터 조회, iteration 초기화
+//  pCurrent가 가리키는 곳을 리스트의 헤더로 옮긴다.
+void list_init_iter(List *pList)
+{
+    pList->pCurrent = pList->pHead;
+}
+
+// 데이터 조회, iteration 다음 데이터가 있나?
+int list_hasNext(List *pList)
+{
+    if (pList->pCurrent->pNext == NULL) // '다음 노드' 존재 여부 체크.. 없으면 false
+        return FALSE;
+
+    return TRUE;
+}
+
 // 리스트 초기화
 void list_init(List *pList)
 {
@@ -53,26 +70,28 @@ PersonInfo list_next(List *pList)
     return result;
 }
 
-// 데이터 조회, iteration 초기화
-//  pCurrent가 가리키는 곳을 리스트의 헤더로 옮긴다.
-void list_init_iter(List *pList)
-{
-    pList->pCurrent = pList->pHead;
-}
-
 // 데이터 개수
 int list_length(List *pList)
 {
     return pList->numData;
 }
 
-// 데이터 조회, iteration 다음 데이터가 있나?
-int list_hasNext(List *pList)
+void printArr(PersonInfo info[], int len)
 {
-    if (pList->pCurrent->pNext == NULL) // '다음 노드' 존재 여부 체크.. 없으면 false
-        return FALSE;
+    for (int i = 0; i < len; i++)
+    {
+        printf("%d/%d-%d-%d/%s/%s/%d/%s/%s\n", info[i].tag, info[i].year, info[i].month, info[i].day, info[i].answer, info[i].name, info[i].age, info[i].organization, info[i].job);
+    }
+}
 
-    return TRUE;
+void printList(List *pList)
+{
+    list_init_iter(pList); // iteration 시작
+    while (list_hasNext(pList))
+    {
+        PersonInfo info = list_next(pList);
+        printf("%d/%d-%d-%d/%s/%s/%d/%s/%s\n", info.tag, info.year, info.month, info.day, info.answer, info.name, info.age, info.organization, info.job);
+    }
 }
 
 // 202033762 장민호
@@ -80,8 +99,8 @@ int list_hasNext(List *pList)
 void list_sort(List *pList)
 {
     // 링크드리스트를 나이순으로 정렬한다. Selection Sort 사용
-    int num = pList->numData;
-    for (int i = 0; i < num; i++)
+    int len = pList->numData;
+    for (int i = 0; i < len - 1; i++)
     {
         // pList가 헤드를 가리키도록
         // pCurrent = pHead
@@ -100,6 +119,9 @@ void list_sort(List *pList)
         Node *firstNode = (Node *)malloc(sizeof(Node));
         Node *selectNode = (Node *)malloc(sizeof(Node));
         Node *tempNode = (Node *)malloc(sizeof(Node));
+        memset(firstNode, 0, sizeof(Node));
+        memset(selectNode, 0, sizeof(Node));
+        memset(tempNode, 0, sizeof(Node));
         firstNode = pList->pCurrent;
         selectNode = firstNode;
 
@@ -121,15 +143,17 @@ void list_sort(List *pList)
             firstNode의 pNext와, selectNode의 pNext를 서로 변경해야 한다.
             서순 주의 꼬이면 망함
         */
-
-        tempNode = selectNode;
+        memcpy(tempNode, selectNode, sizeof(Node));
+        // tempNode = selectNode;
         selectNode->pNext->pNext = firstNode->pNext->pNext;
         firstNode->pNext->pNext = tempNode->pNext->pNext;
+
         selectNode->pNext = firstNode->pNext;
         firstNode->pNext = tempNode->pNext;
 
         // firstNode->000->N0-> ... ->selectNode->111->N1
     }
+    printList(pList);
 }
 
 // 202033762 장민호
@@ -162,6 +186,27 @@ int list_add(List *pList, PersonInfo data)
     }
 
     // 만약 while문이 끝날때까지 if문을 타지 않는다는 것은, 현재 들어온 노드의 나이가 가장 크다는 뜻. 그냥 맨 뒤에 추가하는 것과 같다.
+
+    // tail이 가리키던 node의 next를 새로운 node에 연결
+    pList->pTail->pNext = pNewNode;
+
+    // tail 을 새로운 node 로 이동
+    pList->pTail = pNewNode;
+
+    // 데이터 개수 증가
+    (pList->numData)++;
+
+    return TRUE;
+}
+
+// 데이터 추가
+int list_insert(List *pList, PersonInfo data)
+{
+
+    // 새로운 node 생성
+    Node *pNewNode = (Node *)malloc(sizeof(Node));
+    memset(pNewNode, 0, sizeof(Node));
+    pNewNode->data = data;
 
     // tail이 가리키던 node의 next를 새로운 node에 연결
     pList->pTail->pNext = pNewNode;
