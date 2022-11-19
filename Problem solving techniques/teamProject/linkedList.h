@@ -101,11 +101,13 @@ void printArr(PersonInfo info[], int len)
 void printList(List *pList)
 {
     list_init_iter(pList); // iteration 시작
+    printf("============List Print Start=============\n");
     while (list_hasNext(pList))
     {
         PersonInfo info = list_next(pList);
         printf("%d/%d-%d-%d/%s/%s/%d/%s/%s\n", info.tag, info.year, info.month, info.day, info.answer, info.name, info.age, info.organization, info.job);
     }
+    printf("============List Print Stop=============\n\n");
 }
 
 // 202033762 장민호
@@ -133,9 +135,11 @@ void list_sort(List *pList)
         Node *firstNode = (Node *)malloc(sizeof(Node));
         Node *selectNode = (Node *)malloc(sizeof(Node));
         Node *tempNode = (Node *)malloc(sizeof(Node));
-        memset(firstNode, 0, sizeof(Node));
-        memset(selectNode, 0, sizeof(Node));
-        memset(tempNode, 0, sizeof(Node));
+        Node *tempNode2 = (Node *)malloc(sizeof(Node));
+        Node *a = (Node *)malloc(sizeof(Node));
+        Node *b = (Node *)malloc(sizeof(Node));
+        Node *c = (Node *)malloc(sizeof(Node));
+        Node *d = (Node *)malloc(sizeof(Node));
         firstNode = pList->pCurrent;
         selectNode = firstNode;
 
@@ -151,23 +155,42 @@ void list_sort(List *pList)
             pList->pCurrent = pList->pCurrent->pNext;
         }
 
+        memcpy(tempNode, firstNode, sizeof(Node));
+        memcpy(tempNode2, selectNode, sizeof(Node));
+
         // 두 노드의 위치를 변경한다.
+        if (firstNode == selectNode)
+        {
+            continue;
+        }
+        else if (firstNode->pNext == selectNode)
+        {
 
-        /*
-            firstNode의 pNext와, selectNode의 pNext를 서로 변경해야 한다.
-            서순 주의 꼬이면 망함
-        */
-        memcpy(tempNode, selectNode, sizeof(Node));
-        // tempNode = selectNode;
-        selectNode->pNext->pNext = firstNode->pNext->pNext;
-        firstNode->pNext->pNext = tempNode->pNext->pNext;
+            a = tempNode2->pNext;
+            b = tempNode->pNext;
+            c = tempNode2->pNext->pNext;
 
-        selectNode->pNext = firstNode->pNext;
-        firstNode->pNext = tempNode->pNext;
+            firstNode->pNext = a;
+            firstNode->pNext->pNext = b;
+            firstNode->pNext->pNext->pNext = c;
+        }
+        else
+        { /*
+         firstNode의 pNext와, selectNode의 pNext를 서로 변경해야 한다.
+         서순 주의 꼬이면 망함
+     */
 
-        // firstNode->000->N0-> ... ->selectNode->111->N1
+            a = tempNode2->pNext;
+            b = tempNode->pNext->pNext;
+            c = tempNode->pNext;
+            d = tempNode2->pNext->pNext;
+
+            firstNode->pNext = a;
+            firstNode->pNext->pNext = b;
+            selectNode->pNext = c;
+            selectNode->pNext->pNext = d;
+        }
     }
-    printList(pList);
 }
 
 // 202033762 장민호
@@ -192,6 +215,9 @@ int list_add(List *pList, PersonInfo data)
         // 만약 그 다음 데이터의 age 값이 더 크다면, pCurrent가 곧 pNewNode가 들어갈 자리이다.
         if (list_next(pList).age > data.age)
         {
+            // 11/19
+            // 한발차이로 정렬이 잘 되지 않는 것 같음
+            // 여기 부분 수정하면 될 것 같다.
             pNewNode->pNext = pList->pCurrent->pNext;
             pList->pCurrent->pNext = pNewNode;
             (pList->numData)++;

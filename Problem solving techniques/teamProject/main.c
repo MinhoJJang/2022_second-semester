@@ -45,7 +45,7 @@ int main()
     */
 
     // 202033762 장민호
-    // info 배열에 데이터 삽입하기_Start
+    printf("배열에 데이터 삽입하기_Start\n");
     if (inFile != NULL)
     {
         int i = 0;
@@ -60,18 +60,18 @@ int main()
     }
 
     printArr(info, len);
-    // info 배열에 데이터 삽입하기_END
+    printf("배열에 데이터 삽입하기_End\n");
 
     printf("=============================\n");
 
     // 202033762 장민호
-    // 배열 값을 리스트에 삽입하기_Start
+    printf("배열 값을 리스트에 데이터 삽입하기_Start\n");
     for (int i = 0; i < len; i++)
     {
         list_insert(&pList, info[i]);
     }
     printList(&pList);
-    // 배열 값을 리스트에 삽입하기_End
+    printf("배열 값을 리스트에 데이터 삽입하기_End\n");
 
     printf("=============================\n");
 
@@ -80,5 +80,25 @@ int main()
     list_sort(&pList);
     printList(&pList);
 
+    // 20/2020-07-30/yes/Chinho Kim/52/Gachon University/engineer
+    PersonInfo newData;
+    newData.age = 27;
+    strcpy(newData.answer, "yes");
+    newData.day = 10;
+    newData.month = 12;
+    newData.year = 2027;
+    strcpy(newData.job, "eeeeee");
+    strcpy(newData.name, "namenamenamen");
+    newData.tag = 33;
+    strcpy(newData.organization, "gach");
+
+    list_add(&pList, newData);
+    printList(&pList);
+
     return 0;
 }
+
+// PersonInfo newInfo(char str[])
+// {
+//     PersonInfo new;
+// }
