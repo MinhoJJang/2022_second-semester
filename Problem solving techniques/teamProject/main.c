@@ -64,6 +64,7 @@ int main()
 
     printf("=============================\n");
 
+    // 202033762 장민호
     // 배열 값을 리스트에 삽입하기_Start
     for (int i = 0; i < len; i++)
     {
@@ -74,7 +75,8 @@ int main()
 
     printf("=============================\n");
 
-    // 배열 정렬_Start
+    // 202033762 장민호
+    // 배열 나이순 정렬_Start
     list_sort(&pList);
     printList(&pList);
 

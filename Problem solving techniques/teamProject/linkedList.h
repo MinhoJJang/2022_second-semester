@@ -5,6 +5,9 @@
 #define TRUE 1
 #define FALSE 0
 #define LEN 35
+
+// 202033762 장민호
+// 구조체 생성
 typedef struct _NODE
 {
     int tag;
@@ -18,6 +21,7 @@ typedef struct _NODE
     char job[LEN];
 } PersonInfo;
 
+// 202033762 장민호
 // 노드 타입 정의
 typedef struct _node
 {
@@ -25,6 +29,7 @@ typedef struct _node
     struct _node *pNext; // 다음 노드 포인터
 } Node;
 
+// 202033762 장민호
 // Linked List 타입 정의
 typedef struct _linkedList
 {
@@ -36,6 +41,7 @@ typedef struct _linkedList
 
 typedef LinkedList List;
 
+// 202033762 장민호
 // 데이터 조회, iteration 초기화
 //  pCurrent가 가리키는 곳을 리스트의 헤더로 옮긴다.
 void list_init_iter(List *pList)
@@ -43,6 +49,7 @@ void list_init_iter(List *pList)
     pList->pCurrent = pList->pHead;
 }
 
+// 202033762 장민호
 // 데이터 조회, iteration 다음 데이터가 있나?
 int list_hasNext(List *pList)
 {
@@ -52,6 +59,7 @@ int list_hasNext(List *pList)
     return TRUE;
 }
 
+// 202033762 장민호
 // 리스트 초기화
 void list_init(List *pList)
 {
@@ -62,6 +70,7 @@ void list_init(List *pList)
     printf("리스트 초기화\n");
 }
 
+// 202033762 장민호
 // 데이터 조회, iteration 다음 데이터 추출
 PersonInfo list_next(List *pList)
 {
@@ -70,12 +79,15 @@ PersonInfo list_next(List *pList)
     return result;
 }
 
+// 202033762 장민호
 // 데이터 개수
 int list_length(List *pList)
 {
     return pList->numData;
 }
 
+// 202033762 장민호
+// 배열 속 데이터 출력
 void printArr(PersonInfo info[], int len)
 {
     for (int i = 0; i < len; i++)
@@ -84,6 +96,8 @@ void printArr(PersonInfo info[], int len)
     }
 }
 
+// 202033762 장민호
+// 리스트 속 데이터 출력
 void printList(List *pList)
 {
     list_init_iter(pList); // iteration 시작
@@ -199,10 +213,10 @@ int list_add(List *pList, PersonInfo data)
     return TRUE;
 }
 
+// 202033762 장민호
 // 데이터 추가
 int list_insert(List *pList, PersonInfo data)
 {
-
     // 새로운 node 생성
     Node *pNewNode = (Node *)malloc(sizeof(Node));
     memset(pNewNode, 0, sizeof(Node));
