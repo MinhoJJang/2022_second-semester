@@ -62,8 +62,6 @@ int main()
     printArr(info, len);
     printf("배열에 데이터 삽입하기_End\n");
 
-    printf("=============================\n");
-
     // 202033762 장민호
     printf("배열 값을 리스트에 데이터 삽입하기_Start\n");
     for (int i = 0; i < len; i++)
@@ -73,16 +71,17 @@ int main()
     printList(&pList);
     printf("배열 값을 리스트에 데이터 삽입하기_End\n");
 
-    printf("=============================\n");
-
     // 202033762 장민호
-    // 배열 나이순 정렬_Start
+    printf("배열 나이순 정렬_Start\n");
     list_sort(&pList);
     printList(&pList);
+    printf("배열 나이순 정렬_End\n");
 
+    // 202033762 장민호
+    printf("배열에 데이터 추가 시 정렬되어 출력_Start\n");
     // 20/2020-07-30/yes/Chinho Kim/52/Gachon University/engineer
     PersonInfo newData;
-    newData.age = 27;
+    newData.age = 77;
     strcpy(newData.answer, "yes");
     newData.day = 10;
     newData.month = 12;
@@ -94,11 +93,7 @@ int main()
 
     list_add(&pList, newData);
     printList(&pList);
+    printf("배열에 데이터 추가 시 정렬되어 출력_End\n");
 
     return 0;
 }
-
-// PersonInfo newInfo(char str[])
-// {
-//     PersonInfo new;
-// }
