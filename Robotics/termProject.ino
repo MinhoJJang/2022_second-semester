@@ -60,3 +60,64 @@ void loop(){
 
             // 7. 1번으로 돌아간다. 
 }
+
+/*      
+int fan = 2;
+
+void setup() {
+    pinMode(fan, OUTPUT);
+}
+
+void loop() {
+    digitalWrite(fan, HIGH);
+    delay(2000);
+     digitalWrite(fan, LOW);
+     delay(2000);
+}
+*/   
+
+/*
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(13,12,11,10,9,8);
+
+int liquor[3] = {CIDER, COLA, ORANGE};
+
+void setup()
+{
+    // 버튼 3개 
+  pinMode(7, INPUT);
+  pinMode(6, INPUT);
+  pinMode(5, INPUT);
+  lcd.begin(16,2);
+}
+
+void showCocktail(char str[]){
+    lcd.clear();
+    lcd.setCursor(0,1);
+    lcd.print(str);
+}
+
+void loop()
+{
+    lcd.clear();
+    lcd.setCursor(0,1);
+    lcd.print("SelectCocktail");
+
+    if (digitalRead(7) == HIGH){
+        showCocktail("Cock1");
+    }
+    else if (digitalRead(6) == HIGH){
+        showCocktail("Cock2");
+    }
+    else if (digitalRead(5) == HIGH){
+        showCocktail("Cock3");
+    }
+
+    delay(3000);
+    lcd.clear();
+    lcd.setCursor(0,1);
+    lcd.print("Selected!");
+}
+
+*/
