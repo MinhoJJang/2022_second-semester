@@ -8,6 +8,9 @@ int times[27] = {300, 100, 100, 100, 300, 300, 100, 100, 100, 100, 100, 100, 300
 
 DHT11 dht11(A0);
 
+#define FALSE 0
+#define TRUE 1
+
 #define fan 4
 
 #define cock1 5
@@ -18,9 +21,6 @@ DHT11 dht11(A0);
 #define ec 2
 
 #define led 8
-
-#define FALSE 0
-#define TRUE 1
 
 #define buz 9
 
