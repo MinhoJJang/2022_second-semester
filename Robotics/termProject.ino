@@ -81,7 +81,7 @@ void loop() {
 
 LiquidCrystal lcd(13,12,11,10,9,8);
 
-int liquor[3] = {CIDER, COLA, ORANGE};
+int liquor[3] = {};
 
 void setup()
 {
@@ -120,4 +120,92 @@ void loop()
     lcd.print("Selected!");
 }
 
+*/
+
+
+/*
+void setup(){
+  Serial.begin(9600);
+}
+void loop(){
+  int waterSensorVal = analogRead(A0); 
+  Serial.print("Water Sensor : ");
+  Serial.println(waterSensorVal);
+  delay(100);  
+}
+*/
+
+/*
+#include <DHT11.h>
+DHT11 dht11(A0);
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  float temp, humi;
+
+  int result = dht11.read(humi, temp);
+
+  if(result == 0){
+    Serial.print("temp : ");
+    Serial.println(temp);
+    Serial.print("humi : ");
+    Serial.println(humi);
+  }
+
+  else{
+    Serial.print("Error");
+  }
+  
+  delay(DHT11_RETRY_DELAY);
+}
+*/
+
+/*
+int bell[27] = {277, 370, 349, 311, 277, 233, 247, 277, 311, 208, 233, 247, 233, 277,
+277, 370, 349, 311, 277, 370, 370, 415, 370, 349, 311, 349, 370};
+int times[27] = {300, 100, 100, 100, 300, 300, 100, 100, 100, 100, 100, 100, 300,
+300, 300, 100, 100, 100, 300, 300, 100, 100, 100, 100, 100, 100, 600};
+
+void setup() {
+  pinMode(8,OUTPUT);
+}
+
+void loop() {
+
+  for(int i=0; i< 27; i++){
+    tone(8, bell[i],times[i]);
+    delay(times[i]*2);
+    noTone(8);
+  }
+
+}
+*/
+
+/*
+#define tr 8
+#define ec 7
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(8, OUTPUT);
+  pinMode(7, INPUT);
+  }
+
+void loop(){
+digitalWrite(tr, LOW);
+  delayMicroseconds(10);
+  digitalWrite(tr, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(tr, LOW);
+  
+  long duration = pulseIn(ec, HIGH);
+  float distance = duration / 58.2; 
+  
+  Serial.println(distance);
+  delay(1000);
+}
 */
