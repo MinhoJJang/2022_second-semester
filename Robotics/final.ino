@@ -89,7 +89,6 @@ int checkTemperatureHumidity(){
    int result = dht11.read(humi, temp); 
 
    lcd2.clear();
-   lcd2.backlight();
    lcd2.setCursor(0,0);
    lcd2.print("humi: ");
    lcd2.print(humi);
