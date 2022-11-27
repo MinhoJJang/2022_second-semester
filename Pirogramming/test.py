@@ -12,13 +12,15 @@ selected = 'A'
 # print(str)
 
 index = -1
-while(1):
-    if str[index+1:].find(selected) != -1:
+while(str[index+1:].find(selected) != -1):
+ 
         index = str[index+1:].find(selected)+index+1
         print(index)
         str2 = list(str2)
         str2[index] = selected
         str2 = ''.join(str2)
         print(str2)
-    else :
-        break
+        print(type(str2))
+
+for player in str:
+    print(player)

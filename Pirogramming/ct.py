@@ -34,7 +34,7 @@ class Game:
 
       # TODO 1-(1): 사용자로부터 캐릭터를 입력받아 user_character에 저장해주세요.
       # 11/27 clear      
-      self.user_character = self.player[int(input("당신의 캐릭터 번호를 선택해주세요 (1,2,3,4)"))-1]
+      self.user_character = self.player[int(input("당신의 캐릭터 번호를 선택해주세요 (1,2,3,4): "))-1]
       ##### END OF TODO 1-(1)(문제와 본 라인 사이에 코드를 작성하세요.) #####
 
       # TODO 1-(2) : 랜덤 알파벳 10글자로 이루어진 단어를 만들어 answer_str에 저장해주세요.
@@ -89,42 +89,34 @@ class Game:
           # TODO 3-(2) : 정답 시, 현재까지 맞춘 단어의 상태를 출력해주세요.
 		      # 이 단계에서 플레이어 별 점수 집계도 처리해주셔야 합니다.
 
-          # 일단 해당 문자가 문자열에 존재하는지 파악한다. 
+          # 해당 문자가 문자열에 존재한다면
           if selected in self.answer_str:
-            # 문자열에 존재한다면, 해당 문자의 index 번호를 모두 알아야 한다. 
+
+            print("***** 맞았습니다 ᵔεᵔ  *****")
+
+            # 1. 문자열에 존재한다면, 해당 문자의 index 번호를 모두 알아야 한다.
+            # self.current_str 작업
             index = -1
-            while(1):
-             
-              if self.answer_str[index+1:].find(selected) != -1:
-                 index = self.answer_str[index+1:].find(selected)+index+1
-                 
-                 self.current_str = self.current_str[:index] + selected + self.current_str[index+1:]
-
-                 self.current_str = list(self.current_str)
-                 self.current_str[index] = selected
-                 self.current_str = ''.join(self.current_str)
-   
-   
-              else :
-                break
-
-            # 해당 index을 찾을 때마다 current_str을 바꿔준다.
-            #  
-          else :
-            self.player[i].hp -= self.player[i].damage
-            # 문자열에 존재하지 않는다면, 틀린 것이다. 
-            # 체력을 깎는다. 
-            
-
-
-          
-          # print("***** 맞았습니다 ᵔεᵔ  *****")
-
+            while(self.answer_str[index+1:].find(selected) != -1):              
+              index = self.answer_str[index+1:].find(selected)+index+1
+              self.current_str = list(self.current_str)
+              self.current_str[index] = selected
+              printarr = ' '.join(self.current_str)
+              self.current_str = ''.join(self.current_str)  
+            print(printarr+"\n")                     
+            # 2. 맞췄으니까, 플레이어 점수도 올려야 한다. 
+            self.player[i].correct_alp += 1          
           # Write code here..
           ##### END OF TODO 3-(2)(문제와 본 라인 사이에 코드를 작성하세요.) #####
             
           # TODO 3-(3) : 오답 시, 생명력을 데미지만큼 감소시켜주고 이를 출력해주세요.
-          # print("***** 틀렸습니다 (ﾟ⊿ﾟ)  ******")
+          else :
+            # 문자열에 존재하지 않는다면, 틀린 것이다. 
+            print("***** 틀렸습니다 (ﾟ⊿ﾟ)  ******")
+            # 체력을 깎는다. 
+            self.player[i].hp -= self.player[i].damage
+            
+            print("{0}님은 틀렸기 때문에 HP가 {1} 남았습니다\n".format(self.player[i].name, self.player[i].hp))
           # Write code here..
           ##### END OF TODO 3-(3)(문제와 본 라인 사이에 코드를 작성하세요.) #####
           
@@ -144,6 +136,21 @@ class Game:
       print("=============================")
       print("     게임 순위 - 생명력")
       print("=============================")
+      self.player.sort(key=lambda Player:-Player.hp)
+      grade = 1
+      for player in self.player:
+        if player == self.user_character:
+          if player.hp < 0:
+            print("{0}등: *{1}* (사망)".format(grade, player.name))
+          else :
+            print("{0}등: *{1}* (HP: {2})".format(grade, player.name, player.hp))
+        else :
+          if player.hp < 0:
+            print("{0}등: {1} (사망)".format(grade, player.name))
+          else :
+            print("{0}등: {1} (HP: {2})".format(grade, player.name, player.hp))
+        grade += 1
+
       # Write code here..
       ##### END OF TODO 4-(1)(문제와 본 라인 사이에 코드를 작성하세요.) #####
       
@@ -154,6 +161,15 @@ class Game:
       print("=============================")
       print(" 게임 순위 - 알파벳 맞춘 횟수")
       print("=============================")
+      grade = 1
+      self.player.sort(key=lambda Player: -Player.correct_alp)
+      for player in self.player:
+        if player == self.user_character:        
+            print("{0}등: *{1}* {2}회".format(grade, player.name, player.correct_alp))
+        else :
+          print("{0}등: {1} {2}회".format(grade, player.name, player.correct_alp))
+        grade += 1
+
       # Write code here..
       ##### END OF TODO 4-(2)(문제와 본 라인 사이에 코드를 작성하세요.) #####
     
