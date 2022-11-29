@@ -4,6 +4,14 @@ import string
 import random
 STRING_LENGTH = 10
 
+"""
+1. 지금은 모든 캐릭터들의 damage가 각자 최소 두대씩 버틸 수 있게 설정되어 있는데, 만약 게임 수가 증가한다거나 dmg가 증가한다던가 하는 변동사항이 생기면, 게임 중간에 사망하는 경우도 발생할 수 있는데, 사망자는 게임 못하고 바로 다음 사람으로 건너뛰도록 하는 것도 넣어야 할 것 같다. 
+
+2. 모든 단어를 맞출 때까지 진행한다면..? 맞힌 단어 개수만큼 점수가 증가한다면..? 
+
+3. 결과값 출력하는 방식이 좀 맘에 안든다... 사망 시 캐릭터 hp의 값을 int 가 아닌 str로 변경이 가능하나? 그러면 코드가 훨씬 줄어들 것 같다. 
+"""
+
 class Player:
     def __init__(self, name, hp, damage, correct_alp):
       self.name = name      # 이름
@@ -95,17 +103,22 @@ class Game:
             print("***** 맞았습니다 ᵔεᵔ  *****")
 
             # 1. 문자열에 존재한다면, 해당 문자의 index 번호를 모두 알아야 한다.
-            # self.current_str 작업
+            # self.current_str 변경 작업
+            # 제일 까다로웠던 부분이었다. 먼저 바꿔야 할 문자 개수도 체크해야 하고, 문자를 바꿀 때 str타입은 변경할 수 없기 때문에 list 타입으로 변경 후 join으로 다시 문자열로 전환해주어야 하며, print 값은 또 문자를 한칸씩 띄어서 출력해야 하므로 따로 printarr을 선언하여 출력용 str을 만들어줘야 했다. 
             index = -1
+            
             while(self.answer_str[index+1:].find(selected) != -1):              
               index = self.answer_str[index+1:].find(selected)+index+1
               self.current_str = list(self.current_str)
               self.current_str[index] = selected
               printarr = ' '.join(self.current_str)
               self.current_str = ''.join(self.current_str)  
-            print(printarr+"\n")                     
+              
+            print(printarr+"\n") 
+                                
             # 2. 맞췄으니까, 플레이어 점수도 올려야 한다. 
-            self.player[i].correct_alp += 1          
+            self.player[i].correct_alp += 1     
+                 
           # Write code here..
           ##### END OF TODO 3-(2)(문제와 본 라인 사이에 코드를 작성하세요.) #####
             
@@ -140,12 +153,12 @@ class Game:
       grade = 1
       for player in self.player:
         if player == self.user_character:
-          if player.hp < 0:
+          if player.hp <= 0:
             print("{0}등: *{1}* (사망)".format(grade, player.name))
           else :
             print("{0}등: *{1}* (HP: {2})".format(grade, player.name, player.hp))
         else :
-          if player.hp < 0:
+          if player.hp <= 0:
             print("{0}등: {1} (사망)".format(grade, player.name))
           else :
             print("{0}등: {1} (HP: {2})".format(grade, player.name, player.hp))
