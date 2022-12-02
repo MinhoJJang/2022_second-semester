@@ -6,7 +6,7 @@
 - 하나의 key에 하나의 value가 대응되어야 한다.
 - value로는 모든 데이터 유형이 가능하다.
 - key로는 리스트와 딕셔너리를 제외하고 모든 데이터 유형이 가능하다.
-- 만약 key 값이 중복될 경우, 뒤에 있는 값을 사용한다.
+- 만약 key 값이 중복될 경우, 나중에 들어온 값을 사용한다.
 - 중괄호 `{ }` 를 이용해 정의된다.
 
 ### value 가져오기
@@ -28,6 +28,7 @@
 - 만약 지정한 keyname이 없을 경우, get() 내부에서 지정한 value가 대신 출력된다.
 - 만약 지정한 keyname이 존재할 경우, get() 내부에서 지정한 value는 무시되고 딕셔너리 내부의 value 값이 리턴된다.
 - value 값은 반드시 필요하지는 않다.
+- 딕셔너리 내부에 데이터를 삽입하는 것은 아니다!
 
 ```py
 >>> mydict = {'name': 'Kim', 'year': 1999}
@@ -167,6 +168,7 @@ for key, val in x.items():
         del x[key]
 
 RuntimeError: dictionary changed size during iteration
+-> for문 내부에서 dict을 수정할 수는 없다
 
 # 가능
 keyMemory = []
@@ -211,6 +213,8 @@ print(x)
 ```
 
 > zip
+
+서로 다른 리스트를 묶을 때 사용한다. 매치되는 값이 없을 경우 그냥 데이터 무시됨
 
 ```py
 >>> title = ['name', 'age', 'birthday']
@@ -310,7 +314,9 @@ print(x)
 
 ### Unpacking
 
-```
+```py
+my_data4 = ((2, 3, 4), (1, 2, "hi"))
+
 q,w,e = my_data4[1]
 print(q, w, e)
 
