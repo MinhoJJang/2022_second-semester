@@ -2,9 +2,10 @@
 #include <stdlib.h> // malloc, rand, atoi ..동적메모리, 난수, 문자열 변환
 #include <string.h> //strcpy.. 문자열함수. memcpy.. 메모리블럭 함수
 #include <malloc.h>
+#include <memory.h>
 #define TRUE 1
 #define FALSE 0
-#define LEN 35
+#define LEN 100
 
 // 202033762 장민호
 // 구조체 생성
@@ -88,12 +89,17 @@ int list_length(List *pList)
 
 // 202033762 장민호
 // 배열 속 데이터 출력
-void printArr(PersonInfo info[], int len)
+void printArr(PersonInfo info[])
 {
-    for (int i = 0; i < len; i++)
+    printf("============Array Print Start=============\n");
+    for (int i = 0; i < LEN; i++)
     {
+        if(info[i].tag == 0){
+            break;
+        }
         printf("%d/%d-%d-%d/%s/%s/%d/%s/%s\n", info[i].tag, info[i].year, info[i].month, info[i].day, info[i].answer, info[i].name, info[i].age, info[i].organization, info[i].job);
     }
+    printf("============Array Print Stop=============\n");
 }
 
 // 202033762 장민호
@@ -195,6 +201,10 @@ void list_sort(List *pList)
 
 // 202033762 장민호
 // 데이터 추가 & 정렬된 상태의 리스트에서 위치를 찾아 삽입
+/*
+One “Paik” registered late. Add the data to
+  in the linked list
+*/
 int list_add(List *pList, PersonInfo data)
 {
     // 새로운 node 생성
@@ -213,16 +223,14 @@ int list_add(List *pList, PersonInfo data)
     {
         // 만약 pCurrent에서 다음 노드가 존재할 경우 그 다음 노드의 age값과 새로 들어온 데이터의 age값을 비교한다.
         // 만약 그 다음 데이터의 age 값이 더 크다면, pCurrent가 곧 pNewNode가 들어갈 자리이다.
-        if (list_next(pList).age > data.age)
-        {
-            // 11/19
-            // 한발차이로 정렬이 잘 되지 않는 것 같음
-            // 여기 부분 수정하면 될 것 같다.
+        if (pList->pCurrent->pNext->data.age > data.age)
+        {           
             pNewNode->pNext = pList->pCurrent->pNext;
             pList->pCurrent->pNext = pNewNode;
-            (pList->numData)++;
+            (pList->numData)++;         
             return TRUE;
         }
+        pList->pCurrent = pList->pCurrent->pNext;
     }
 
     // 만약 while문이 끝날때까지 if문을 타지 않는다는 것은, 현재 들어온 노드의 나이가 가장 크다는 뜻. 그냥 맨 뒤에 추가하는 것과 같다.
@@ -258,4 +266,112 @@ int list_insert(List *pList, PersonInfo data)
     (pList->numData)++;
 
     return TRUE;
+}
+
+/*
+202033762 장민호
+Search for all from Gachon University (if found, print all information about the persons).
+  - in the linked list
+*/
+PersonInfo* list_search_organization(List *pList, char key[]){
+    
+    int idx = 0;
+    static PersonInfo returnInfo[LEN]; //반환할 배열 선언
+
+    list_init_iter(pList); // pCurrent 맨 처음으로 돌림
+    while(list_hasNext(pList)) // 다음 노드가 존재한다면
+    {
+        if(strcmp(key, pList->pCurrent->pNext->data.organization) == 0) // 만약 같으면 
+        {
+            returnInfo[idx] = pList->pCurrent->pNext->data;
+            idx++;
+            // 해당 정보를 returnInfo에 저장한다. 
+            
+        }
+        pList->pCurrent = pList->pCurrent->pNext;
+    }
+
+    return returnInfo;
+}
+
+
+/*
+202033762 장민호
+All “Choi”s canceled registration. Remove the data from
+  in the linked list
+*/
+// 오류 수정해야됨                                                                                
+void list_delete_firstName(List *pList, char key[]){
+
+    list_init_iter(pList); // pCurrent 맨 처음으로 돌림
+    while(list_hasNext(pList)) // 다음 노드가 존재한다면
+    {
+        char tempName[LEN];
+        char name[2][LEN];
+        int idx = 0;
+        strcpy(tempName, pList->pCurrent->pNext->data.name);
+
+        char *ptr = strtok(tempName, " ");    
+ 
+        while (ptr != NULL)
+        {
+            strcpy(name[idx], ptr);
+            idx++;
+            ptr = strtok(NULL, " ");
+        }
+
+        if(strcmp(name[idx-1], key) == 0) // 만약 맨 뒤 이름(성씨)이 서로 같으면 
+        {      
+            // 만약 다음 노드가 마지막일 경우
+            if (pList->pCurrent->pNext == pList->pTail) {
+                pList->pTail = pList->pCurrent; // tail을 이전 노드로 이동
+                free(pList->pCurrent->pNext);
+                pList->numData--; 
+                break; // 더 조사할 필요 없다. 
+            }
+            else{
+                pList->pCurrent->pNext = pList->pCurrent->pNext->pNext;
+                free(pList->pCurrent->pNext);    
+            }              
+        }
+        pList->pCurrent = pList->pCurrent->pNext;
+    }
+
+}
+
+
+
+// 이상윤
+void StoreData()
+{
+    PersonInfo info_arr[5] =
+        {
+
+            {6, 2020, 06, 04, "yes", "Bobby Anderson", 33, "McGill University", "engineer"},
+
+            {5, 2020, 06, 12, "yes", "Chunyong Park", 48, "University of Cambridge", "student"},
+
+            {11, 2020, 07, 22, "no", "Kwangsu Choi", 48, "Seoul National University", "marketer"},
+
+            {22, 2020, 06, 29, "no", "Tongbang Cho", 29, "Northwestern University", "marketer"},
+
+            {7, 2020, 06, 28, "yes", "Jihu Park", 70, "Australian National University", "student"},
+
+        }; // 추후에 원하는 데이터를 뽑아서 구조체를 구현할 것을 예시로 구현함
+
+    FILE *fp;
+    int n = 5;
+    // 쓰기 모드로 파일을 열면 파일의 내용은 사라집니다.
+    // 만약 파일이 없으면 새로 생성합니다.
+
+    fp = fopen("C:\\test2\\result.txt", "w"); // 파일 쓰기 모드로 열기
+    // 여기다 새로운 리스트를 뽑아서 result.txt파일에 저장한다
+    if (fp == NULL)
+    {
+        printf("\nFile Could Not Be Opened\n");
+        exit(0); // 프로그램 종료
+    }
+
+    fwrite(info_arr, sizeof(PersonInfo), n, fp); // 회원 데이터 출력
+    fclose(fp);
 }

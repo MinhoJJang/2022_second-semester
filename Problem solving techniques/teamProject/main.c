@@ -1,36 +1,26 @@
 #include "linkedList.h"
 
-// typedef struct _NODE
-// {
-//     int tag;
-//     int year;
-//     int month;
-//     int day;
-//     char answer[LEN];
-//     char name[LEN];
-//     int age;
-//     char organization[LEN];
-//     char job[LEN];
-// } PersonInfo;
+/*
+- 이름찾고 전체 데이터 출력
+    - array
+    - linkedList
+- organization 같은 데이터 출력
+    - array
+    -linkedList(장민호)-
 
-// 노드 타입 정의
-// typedef struct _node
-// {
-//     PersonInfo data;     // 노드 데이터
-//     struct _node *pNext; // 다음 노드 포인터
-// } Node;
+- 태그번호순으로 sort
+- sort한걸 가지고 링크드리스트 만들기
+- selection sort 사용해서 10대, 20대, 30대.. 구분
+- 정렬한 파일을 텍스트 파일에 write
 
-// typedef struct _linkedList
-// {
-//     Node *pHead;
-//     Node *pTail;
-//     Node *pCurrent;
-//     int numData;
-// } LinkedList;
+- array 에서 데이터 삭제
+- linkedList에서 데이터 삭제(장민호)-
 
-// typedef LinkedList List;
+(나이정렬)
+- array 에 데이터 삽입, 삽입될 위치를 찾아서 넣기
+- linkedList 데이터 삽입, 마찬가지로 나이순 정렬(장민호)-
 
-// 구조체 타입 배열과 리스트를 각각 생성한다.
+*/
 
 int main()
 {
@@ -45,6 +35,7 @@ int main()
     */
 
     // 202033762 장민호
+    printf("================================\n");
     printf("배열에 데이터 삽입하기_Start\n");
     if (inFile != NULL)
     {
@@ -59,41 +50,56 @@ int main()
         fclose(inFile);
     }
 
-    printArr(info, len);
+    printArr(info);
     printf("배열에 데이터 삽입하기_End\n");
 
     // 202033762 장민호
+    printf("================================\n");
     printf("배열 값을 리스트에 데이터 삽입하기_Start\n");
+
     for (int i = 0; i < len; i++)
     {
         list_insert(&pList, info[i]);
     }
     printList(&pList);
+
     printf("배열 값을 리스트에 데이터 삽입하기_End\n");
 
     // 202033762 장민호
+    printf("================================\n");
     printf("배열 나이순 정렬_Start\n");
+
     list_sort(&pList);
     printList(&pList);
+
     printf("배열 나이순 정렬_End\n");
 
     // 202033762 장민호
+    printf("================================\n");
     printf("배열에 데이터 추가 시 정렬되어 출력_Start\n");
-    // 20/2020-07-30/yes/Chinho Kim/52/Gachon University/engineer
-    PersonInfo newData;
-    newData.age = 77;
-    strcpy(newData.answer, "yes");
-    newData.day = 10;
-    newData.month = 12;
-    newData.year = 2027;
-    strcpy(newData.job, "eeeeee");
-    strcpy(newData.name, "namenamenamen");
-    newData.tag = 33;
-    strcpy(newData.organization, "gach");
+    PersonInfo newData = {41, 2020, 06, 04, "yes", "Bobby Anderson", 45, "McGill University", "engineer"};
 
     list_add(&pList, newData);
     printList(&pList);
+
     printf("배열에 데이터 추가 시 정렬되어 출력_End\n");
+
+    // 202033762 장민호
+    printf("================================\n");
+    printf("Search for all from Gachon University (if found, print all information about the persons)_Start\n");
+
+    PersonInfo searchedInfo[LEN];
+    memcpy(searchedInfo, list_search_organization(&pList, "Gachon University"), sizeof(searchedInfo));
+    printArr(searchedInfo);
+    printf("Search for all from Gachon University (if found, print all information about the persons)_End\n");
+
+    // 202033762 장민호
+    printf("================================\n");
+    printf("All 'Choi's canceled registration. Remove the data from in the linked list_Start\n");
+    list_delete_firstName(&pList, "Choi");
+    printList(&pList);
+
+    printf("All 'Choi's canceled registration. Remove the data from in the linked list_End\n");
 
     return 0;
 }
