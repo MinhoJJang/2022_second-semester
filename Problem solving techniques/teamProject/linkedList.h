@@ -94,7 +94,8 @@ void printArr(PersonInfo info[])
     printf("============Array Print Start=============\n");
     for (int i = 0; i < LEN; i++)
     {
-        if(info[i].tag == 0){
+        if (info[i].tag == 0)
+        {
             break;
         }
         printf("%d/%d-%d-%d/%s/%s/%d/%s/%s\n", info[i].tag, info[i].year, info[i].month, info[i].day, info[i].answer, info[i].name, info[i].age, info[i].organization, info[i].job);
@@ -224,10 +225,10 @@ int list_add(List *pList, PersonInfo data)
         // 만약 pCurrent에서 다음 노드가 존재할 경우 그 다음 노드의 age값과 새로 들어온 데이터의 age값을 비교한다.
         // 만약 그 다음 데이터의 age 값이 더 크다면, pCurrent가 곧 pNewNode가 들어갈 자리이다.
         if (pList->pCurrent->pNext->data.age > data.age)
-        {           
+        {
             pNewNode->pNext = pList->pCurrent->pNext;
             pList->pCurrent->pNext = pNewNode;
-            (pList->numData)++;         
+            (pList->numData)++;
             return TRUE;
         }
         pList->pCurrent = pList->pCurrent->pNext;
@@ -273,20 +274,19 @@ int list_insert(List *pList, PersonInfo data)
 Search for all from Gachon University (if found, print all information about the persons).
   - in the linked list
 */
-PersonInfo* list_search_organization(List *pList, char key[]){
-    
+PersonInfo *list_search_organization(List *pList, char key[])
+{
     int idx = 0;
-    static PersonInfo returnInfo[LEN]; //반환할 배열 선언
+    static PersonInfo returnInfo[LEN]; // 반환할 배열 선언
 
-    list_init_iter(pList); // pCurrent 맨 처음으로 돌림
-    while(list_hasNext(pList)) // 다음 노드가 존재한다면
+    list_init_iter(pList);      // pCurrent 맨 처음으로 돌림
+    while (list_hasNext(pList)) // 다음 노드가 존재한다면
     {
-        if(strcmp(key, pList->pCurrent->pNext->data.organization) == 0) // 만약 같으면 
+        if (strcmp(key, pList->pCurrent->pNext->data.organization) == 0) // 만약 같으면
         {
             returnInfo[idx] = pList->pCurrent->pNext->data;
             idx++;
-            // 해당 정보를 returnInfo에 저장한다. 
-            
+            // 해당 정보를 returnInfo에 저장한다.
         }
         pList->pCurrent = pList->pCurrent->pNext;
     }
@@ -294,25 +294,25 @@ PersonInfo* list_search_organization(List *pList, char key[]){
     return returnInfo;
 }
 
-
 /*
 202033762 장민호
 All “Choi”s canceled registration. Remove the data from
   in the linked list
 */
-// 오류 수정해야됨                                                                                
-void list_delete_firstName(List *pList, char key[]){
+void list_delete_firstName(List *pList, char key[])
+{
 
-    list_init_iter(pList); // pCurrent 맨 처음으로 돌림
-    while(list_hasNext(pList)) // 다음 노드가 존재한다면
+    list_init_iter(pList);      // pCurrent 맨 처음으로 돌림
+    while (list_hasNext(pList)) // 다음 노드가 존재한다면
     {
+        // 해당 노드의 이름을 가져오고, 그 이름의 성씨를 비교해야 하므로 공백 기준으로 문자열을 나누는 strtok을 사용하여 이름이라는 문자열을 두 개의 문자열로 나누고, 맨 뒤의 문자열, 성씨가 같을 경우 해당 노드를 제거한다.
         char tempName[LEN];
         char name[2][LEN];
         int idx = 0;
         strcpy(tempName, pList->pCurrent->pNext->data.name);
 
-        char *ptr = strtok(tempName, " ");    
- 
+        char *ptr = strtok(tempName, " ");
+
         while (ptr != NULL)
         {
             strcpy(name[idx], ptr);
@@ -320,58 +320,28 @@ void list_delete_firstName(List *pList, char key[]){
             ptr = strtok(NULL, " ");
         }
 
-        if(strcmp(name[idx-1], key) == 0) // 만약 맨 뒤 이름(성씨)이 서로 같으면 
-        {      
-            // 만약 다음 노드가 마지막일 경우
-            if (pList->pCurrent->pNext == pList->pTail) {
-                pList->pTail = pList->pCurrent; // tail을 이전 노드로 이동
-                free(pList->pCurrent->pNext);
-                pList->numData--; 
-                break; // 더 조사할 필요 없다. 
-            }
-            else{
-                pList->pCurrent->pNext = pList->pCurrent->pNext->pNext;
-                free(pList->pCurrent->pNext);    
-            }              
-        }
-        pList->pCurrent = pList->pCurrent->pNext;
-    }
-
-}
-
-
-
-// 이상윤
-void StoreData()
-{
-    PersonInfo info_arr[5] =
+        if (strcmp(name[idx - 1], key) == 0) // 만약 맨 뒤 이름(성씨)이 서로 같으면
         {
-
-            {6, 2020, 06, 04, "yes", "Bobby Anderson", 33, "McGill University", "engineer"},
-
-            {5, 2020, 06, 12, "yes", "Chunyong Park", 48, "University of Cambridge", "student"},
-
-            {11, 2020, 07, 22, "no", "Kwangsu Choi", 48, "Seoul National University", "marketer"},
-
-            {22, 2020, 06, 29, "no", "Tongbang Cho", 29, "Northwestern University", "marketer"},
-
-            {7, 2020, 06, 28, "yes", "Jihu Park", 70, "Australian National University", "student"},
-
-        }; // 추후에 원하는 데이터를 뽑아서 구조체를 구현할 것을 예시로 구현함
-
-    FILE *fp;
-    int n = 5;
-    // 쓰기 모드로 파일을 열면 파일의 내용은 사라집니다.
-    // 만약 파일이 없으면 새로 생성합니다.
-
-    fp = fopen("C:\\test2\\result.txt", "w"); // 파일 쓰기 모드로 열기
-    // 여기다 새로운 리스트를 뽑아서 result.txt파일에 저장한다
-    if (fp == NULL)
-    {
-        printf("\nFile Could Not Be Opened\n");
-        exit(0); // 프로그램 종료
+            Node *pDelete = NULL;
+            pDelete = pList->pCurrent->pNext;
+            // 만약 다음 노드가 마지막일 경우
+            if (pList->pCurrent->pNext == pList->pTail)
+            {
+                pList->pTail = pList->pCurrent; // tail을 이전 노드로 이동
+                free(pDelete);
+                pList->numData--;
+                break; // 마지막 노드이므로 더 조사할 필요 없다.
+            }
+            else
+            {
+                pList->pCurrent->pNext = pList->pCurrent->pNext->pNext;
+                free(pDelete);
+            }
+            // 다음 연결된 노드가 또 Choi일 수도 있기 때문에 pCurrent를 움직이지 않는다.
+        }
+        else // 만약 성씨가 같지 않다면, 조사를 계속한다.
+        {
+            pList->pCurrent = pList->pCurrent->pNext;
+        }
     }
-
-    fwrite(info_arr, sizeof(PersonInfo), n, fp); // 회원 데이터 출력
-    fclose(fp);
 }
