@@ -201,7 +201,6 @@ void list_sort(List *pList)
 }
 
 // 202033762 장민호
-// 데이터 추가 & 정렬된 상태의 리스트에서 위치를 찾아 삽입
 /*
 One “Paik” registered late. Add the data to
   in the linked list
