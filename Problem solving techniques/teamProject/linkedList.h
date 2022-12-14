@@ -3,6 +3,7 @@
 #include <string.h> //strcpy.. 문자열함수. memcpy.. 메모리블럭 함수
 #include <malloc.h>
 #include <memory.h>
+#include <stdbool.h>
 #define TRUE 1
 #define FALSE 0
 #define LEN 100
@@ -300,7 +301,6 @@ All “Choi”s canceled registration. Remove the data from
 */
 void list_delete_firstName(List *pList, char key[])
 {
-
     list_init_iter(pList);      // pCurrent 맨 처음으로 돌림
     while (list_hasNext(pList)) // 다음 노드가 존재한다면
     {
@@ -343,4 +343,408 @@ void list_delete_firstName(List *pList, char key[])
             pList->pCurrent = pList->pCurrent->pNext;
         }
     }
+}
+
+// 김태은
+// 나이 그룹별 sort
+void ageGroup_sort(PersonInfo *z)
+{
+    int i;
+    FILE *a, *b, *c, *d, *e, *f, *g, *h; // 파일 생성
+    a = fopen("10s.txt", "w");
+    b = fopen("20s.txt", "w");
+    c = fopen("30s.txt", "w");
+    d = fopen("40s.txt", "w");
+    e = fopen("50s.txt", "w");
+    f = fopen("60s.txt", "w");
+    g = fopen("70s.txt", "w");
+    h = fopen("others.txt", "w");
+    // 각 나이대에 맞는 파일에 데이터 입력
+    for (i = 0; i < 30; i++)
+    {
+        if (z[i].age >= 70)
+        {
+            fprintf(g, "%d/%d-%d-%d/%s/%s/%d/%s/%s\n", z[i].tag, z[i].year, z[i].month, z[i].day, z[i].answer, z[i].name, z[i].age, z[i].organization, z[i].job);
+        }
+        else if (z[i].age >= 60)
+        {
+            fprintf(f, "%d/%d-%d-%d/%s/%s/%d/%s/%s\n", z[i].tag, z[i].year, z[i].month, z[i].day, z[i].answer, z[i].name, z[i].age, z[i].organization, z[i].job);
+        }
+        else if (z[i].age >= 50)
+        {
+            fprintf(e, "%d/%d-%d-%d/%s/%s/%d/%s/%s\n", z[i].tag, z[i].year, z[i].month, z[i].day, z[i].answer, z[i].name, z[i].age, z[i].organization, z[i].job);
+        }
+        else if (z[i].age >= 40)
+        {
+            fprintf(d, "%d/%d-%d-%d/%s/%s/%d/%s/%s\n", z[i].tag, z[i].year, z[i].month, z[i].day, z[i].answer, z[i].name, z[i].age, z[i].organization, z[i].job);
+        }
+        else if (z[i].age >= 30)
+        {
+            fprintf(c, "%d/%d-%d-%d/%s/%s/%d/%s/%s\n", z[i].tag, z[i].year, z[i].month, z[i].day, z[i].answer, z[i].name, z[i].age, z[i].organization, z[i].job);
+        }
+        else if (z[i].age >= 20)
+        {
+            fprintf(b, "%d/%d-%d-%d/%s/%s/%d/%s/%s\n", z[i].tag, z[i].year, z[i].month, z[i].day, z[i].answer, z[i].name, z[i].age, z[i].organization, z[i].job);
+        }
+        else if (z[i].age >= 10)
+        {
+            fprintf(a, "%d/%d-%d-%d/%s/%s/%d/%s/%s\n", z[i].tag, z[i].year, z[i].month, z[i].day, z[i].answer, z[i].name, z[i].age, z[i].organization, z[i].job);
+        }
+        else
+        {
+            fprintf(h, "%d/%d-%d-%d/%s/%s/%d/%s/%s\n", z[i].tag, z[i].year, z[i].month, z[i].day, z[i].answer, z[i].name, z[i].age, z[i].organization, z[i].job);
+        }
+    }
+    fclose(a);
+    fclose(b);
+    fclose(c);
+    fclose(d);
+    fclose(e);
+    fclose(f);
+    fclose(g);
+}
+
+// 김태은
+// tag 번호 순 sort in array
+void tag_sort(PersonInfo *a)
+{
+    int i;
+    int j;
+    PersonInfo tmp; // 태그 비교하며 임시 장소 이용해 자리바꿔줌
+    for (i = 0; i < 30; i++)
+    {
+        for (j = i + 1; j < 30; j++)
+        {
+            if (a[j].tag < a[i].tag)
+            {
+                tmp = a[i];
+                a[i] = a[j];
+                a[j] = tmp;
+            }
+        }
+    }
+}
+
+void AddNode(Node *head, PersonInfo *Person)
+{                                // 노드를 추가하는 함수
+    Node *current = head->pNext; // head->next 부터 첫 번째 노드가 들어감
+    Node *tail = head;           // head 의 이전 위치를 기억하는 포인터 변수
+    // find insert loaction
+    while (current != NULL)
+    {
+        // if (current->pNext == NULL)
+        //     break;
+        tail = current;
+        current = current->pNext;
+    }
+
+    // make newnode
+    Node *NewNode = (Node *)malloc(sizeof(Node));
+
+    // data
+    (NewNode->data).tag = Person->tag;
+    (NewNode->data).year = Person->year;
+    (NewNode->data).month = Person->month;
+    (NewNode->data).day = Person->day;
+    strcpy((NewNode->data).answer, Person->answer);
+    strcpy((NewNode->data).name, Person->name);
+    (NewNode->data).age = Person->age;
+    strcpy((NewNode->data).organization, Person->organization);
+    strcpy((NewNode->data).job, Person->job);
+
+    // 새로운 노드를 기존 노드에 연결
+    tail->pNext = NewNode;
+    NewNode->pNext = current;
+}
+
+void DisplayAllData(Node *head)
+{
+    Node *current = head->pNext;
+    while (current != NULL)
+    {
+        printf("\n%d / %d - %d - %d / %s / %s / %d / %s / %s\n", current->data.tag, current->data.year,
+               current->data.month, current->data.day, current->data.answer, current->data.name, current->data.age, current->data.organization, current->data.job);
+        current = current->pNext;
+    }
+}
+
+/*
+    201835242 허혁
+    string 안에 target(substring)이 존재하는지 확인하는 함수
+*/
+bool Has_substring(char *string, char *target)
+{
+    char *check = strstr(string, target);
+
+    if (check != NULL)
+        return true; // target이 존재하면 true 반환
+    return false;
+}
+
+/*
+    201835242 허혁
+    Search for all from Choi (if found, print all information about the persons).
+    - in the Array
+*/
+void search_Arr_Name(PersonInfo testArr[])
+{                             // 하나씩 서치하면서 Choi 와 같은 문자가 있으면 Array 에 저장
+    PersonInfo choi_array[5]; // Choi 씨를 찾으면 담는 배열, 즉 검색해서 같은 단어가 있으면 담는 배열
+    char keyWord[20];         // 검색할 단어를 입력받을 배열
+    int i = 0;
+    int index = 0;
+    printf("키워드 입력 => "); // 여기선 Choi를 입력
+    scanf("%s", keyWord);      // 검색할 단어를 입력
+    while (i < 5)
+    { // 테스트하는 배열의 갯수가 5개
+        if (Has_substring(testArr[i].name, keyWord))
+        {                                           // 키워드를 이름으로 탐색
+            choi_array[index].tag = testArr[i].tag; // 테스트 배열의 값을 검색하여 찾은 단어의 배열의 값으로 전달
+            choi_array[index].year = testArr[i].year;
+            choi_array[index].month = testArr[i].month;
+            choi_array[index].day = testArr[i].day;
+            strcpy(choi_array[index].answer, testArr[i].answer);
+            strcpy(choi_array[index].name, testArr[i].name);
+            choi_array[index].age = testArr[i].age;
+            strcpy(choi_array[index].organization, testArr[i].organization);
+            strcpy(choi_array[index].job, testArr[i].job);
+            index++;
+        }
+        i++;
+    }
+    for (int i = 0; i < index; i++)
+    {
+        printf("\n%d / %d - %d - %d / %s / %s / %d / %s / %s\n", choi_array[i].tag, choi_array[i].year, choi_array[i].month, choi_array[i].day, choi_array[i].answer, choi_array[i].name, choi_array[i].age, choi_array[i].organization, choi_array[i].job);
+    }
+}
+
+/*
+    201835242 허혁
+    Search for all from Choi (if found, print all information about the persons).
+    - in the Linked List
+*/
+void search_LinkedList_Name(PersonInfo testArr[])
+{ // 하나씩 서치하면서 Choi 와 같은 문자가 있으면 LinkedList 에 저장
+    PersonInfo choi_List[5];
+    char KeyWord[20] = {0};
+    int i = 0;
+    int index = 0;
+    printf("키워드 입력 => "); // Choi 입력
+    scanf("%s", KeyWord);
+    //	연결 리스트를 탐색 ( 이 코드에선 TestArr 탐색 )
+    while (i < 5)
+    {
+        if (Has_substring(testArr[i].name, KeyWord))
+        {                                          // 키워드를 이름으로 탐색
+            choi_List[index].tag = testArr[i].tag; // 배열에서 다른 배열
+            choi_List[index].year = testArr[i].year;
+            choi_List[index].month = testArr[i].month;
+            choi_List[index].day = testArr[i].day;
+            strcpy(choi_List[index].answer, testArr[i].answer);
+            strcpy(choi_List[index].name, testArr[i].name);
+            choi_List[index].age = testArr[i].age;
+            strcpy(choi_List[index].organization, testArr[i].organization);
+            strcpy(choi_List[index].job, testArr[i].job);
+            index++;
+        }
+        i++;
+    }
+    Node *head = (Node *)malloc(sizeof(Node)); // head Node는 값이 없는 더미 Node
+    head->pNext = NULL;
+    for (int i = 0; i < index; i++)
+    { // 찾은 Choi의 노드 수만큼 노드 추가
+        AddNode(head, &choi_List[i]);
+    }
+    DisplayAllData(head); // 출력
+}
+
+/*
+    201835242 허혁
+    Search for all from Gachon University (if found, print all information about the persons).
+    - in the Array
+*/
+void search_Array_Org(PersonInfo testArr[])
+{ // 하나씩 서치하면서 Gachon University 와 같은 문자가 있으면 Array 에 저장
+    PersonInfo gachon_University_Array[5];
+    char KeyWord[20] = {0};
+    int i = 0;
+    int index = 0;
+    printf("키워드 입력 => "); // Gachon University 입력
+    scanf("%s", KeyWord);
+    //	연결 리스트를 탐색
+    while (i < 5)
+    {
+        if (Has_substring(testArr[i].organization, KeyWord))
+        { //	키워드를 조직으로 탐색
+            gachon_University_Array[index].tag = testArr[i].tag;
+            gachon_University_Array[index].year = testArr[i].year;
+            gachon_University_Array[index].month = testArr[i].month;
+            gachon_University_Array[index].day = testArr[i].day;
+            strcpy(gachon_University_Array[index].answer, testArr[i].answer);
+            strcpy(gachon_University_Array[index].name, testArr[i].name);
+            gachon_University_Array[index].age = testArr[i].age;
+            strcpy(gachon_University_Array[index].organization, testArr[i].organization);
+            strcpy(gachon_University_Array[index].job, testArr[i].job);
+            index++;
+        }
+        i++;
+    }
+    for (int i = 0; i < index; i++)
+    {
+        printf("\n%d / %d - %d - %d / %s / %s / %d / %s / %s\n", gachon_University_Array[i].tag, gachon_University_Array[i].year, gachon_University_Array[i].month, gachon_University_Array[i].day, gachon_University_Array[i].answer, gachon_University_Array[i].name, gachon_University_Array[i].age, gachon_University_Array[i].organization, gachon_University_Array[i].job);
+    }
+}
+
+void fileRead()
+{
+    // 동적 메모리 할당
+    struct _NODE *PersonInfo = (struct _NODE *)malloc(sizeof(struct _NODE));
+
+    FILE *inFile;
+    // inFile = fopen("c:\\test2\\registraion_data.txt", "r"); // 파일을 읽기전용으로 연다
+    inFile = fopen("./registration_data.txt", "r");
+    if (inFile == NULL)
+    {
+        printf("[Fail to connect]");
+        exit(1);
+    }
+    else
+    {
+        const char buffer[1000]; // 토큰을 활용하여 저장할 것이다 이를 위한 buffer를 생성
+        const char *token;       // 토큰 포인터 선언
+
+        int i = 0;
+        int idx = 0;
+        while (!feof(inFile))
+        {
+            i = 0;
+            fgets(buffer, 1000, inFile);
+            char *context;
+            // token = strtok(buffer, "/-", &context); // 띄어쓰기를 기준으로 토큰을 나눈다.
+            token = strtok(buffer, "/-");
+            while (token != NULL)
+            {
+                if (i == 0)
+                {
+                    PersonInfo[idx].tag = atoi(token); // atoi 캐스팅을 이용해 토큰을 int값으로 저장
+                }
+                else if (i == 1)
+                {
+                    PersonInfo[idx].year = atoi(token);
+                }
+                else if (i == 2)
+                {
+                    PersonInfo[idx].month = atoi(token);
+                }
+                else if (i == 3)
+                {
+                    PersonInfo[idx].day = atoi(token);
+                }
+                else if (i == 4)
+                {
+                    strcpy(PersonInfo[idx].answer, token); // strcpy를 이용해 토큰을 문자열로 저장
+                }
+                else if (i == 5)
+                {
+                    strcpy(PersonInfo[idx].name, token);
+                }
+                else if (i == 6)
+                {
+                    PersonInfo[idx].age = atoi(token);
+                }
+                else if (i == 7)
+                {
+                    strcpy(PersonInfo[idx].organization, token);
+                }
+                else
+                {
+                    strcpy(PersonInfo[idx].job, token);
+                }
+
+                i++;
+                token = strtok(NULL, "/-"); // 토큰의 끝을 띄어쓰기로 설정
+            }
+            idx++;
+        }
+
+        for (int i = 0; i < idx; i++)
+        {
+            printf("%d / %d-%d-%d / %s / %s / %d / %s / %s \n", PersonInfo[i].tag, PersonInfo[i].year, PersonInfo[i].month, PersonInfo[i].day, PersonInfo[i].answer,
+                   PersonInfo[i].name, PersonInfo[i].age, PersonInfo[i].organization, PersonInfo[i].job);
+        }
+
+        // 파일의 내용이 구조체에 들어가는지 TEST코드
+        fclose(inFile);
+    }
+}
+
+// 201835222 이상윤
+// 지정한 경로에 파일 저장
+// fileWrite_array
+void fileWrite_array(PersonInfo saveArr[])
+{
+    // 새로운 linkedList로 배열을 뽑아내거나 registraion_data.txt파일에서 가져온 데이터를 바탕으로 배열로 저장된 것을 파일에 쓰기
+
+    FILE *outFile;
+    char fileName[LEN];
+    int i = 0;
+
+    // 지정할 경로 설정
+    printf("\n\n [저장할 파일의 경로를 입력하세요] : ");
+    scanf("%s", fileName);
+    outFile = fopen(fileName, "w");
+
+    if (outFile == NULL)
+    {
+        printf("Fail to connect");
+        exit(1);
+    }
+
+    else
+    {
+        while (saveArr[i].tag != 0)
+        {
+            fprintf(outFile, "%d / %d-%d-%d / %s / %s / %d / %s / %s\n", saveArr[i].tag, saveArr[i].year, saveArr[i].month, saveArr[i].day, saveArr[i].answer, saveArr[i].name, saveArr[i].age, saveArr[i].organization, saveArr[i].job);
+            i++;
+            // 구조체 배열을 이용한파일에 쓰기
+        }
+        printf("\n\n 파일이 지정된 위치에 저장되었습니다.");
+    }
+    fclose(outFile);
+}
+
+// 201835222 이상윤
+// fileWrite_linkedList
+void fileWrite_linkedList(Node **newHead)
+{
+    FILE *outFile;
+    Node *ptr = *newHead;
+    char fileName[100];
+
+    // 지정할 경로 설정
+    printf("\n\n [저장할 파일의 경로를 입력하세요] : ");
+    scanf("%s", fileName);
+    outFile = fopen(fileName, "w");
+
+    if (outFile == NULL)
+    {
+        printf("[Fail to connect]");
+        exit(1);
+    }
+    if (ptr == NULL)
+    {
+        printf("\n\n [Error]");
+    }
+    else
+    {
+        ptr = ptr->pNext;
+        while (ptr != NULL)
+        {
+
+            fprintf(outFile, "%d / %d-%d-%d / %s / %s / %d / %s / %s\n", ptr->data.tag, ptr->data.year, ptr->data.month, ptr->data.day, ptr->data.answer, ptr->data.name, ptr->data.age, ptr->data.organization, ptr->data.job);
+            ptr = ptr->pNext;
+            // 링크드리스트를 이용한 파일 쓰기
+        }
+        printf("\n\n 파일이 지정된 위치에 저장되었습니다.");
+    }
+    fclose(outFile);
 }

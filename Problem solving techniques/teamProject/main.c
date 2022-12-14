@@ -78,19 +78,35 @@ int main()
     // ======================== SetUp Finish ========================
 
     /*
-        허혁
-        Search for “Choi” (if found, print all information about the persons) - in the array
-    */
+           201835242 허혁
+            Search for “Choi” (if found, print all information about the persons) - in the array
+        */
+    printf("================================\n");
+    printf("Search for all from Choi (if found, print all information about the persons)_Start\n");
 
+    // 1. 파일에서 가져오는 대신 Test Array 에서 가져옴
+    // 2. Search 할 문장과 비교 후 Choi 가 포함된 구조체 배열을 출력
+
+    search_Arr_Name(info); // Search 후 Arr
+    printf("Search for all from Choi (if found, print all information about the persons)_End\n");
     /*
-        허혁
+       201835242 허혁
         Search for “Choi” (if found, print all information about the persons) - in the linked list
     */
+    printf("================================\n");
+    printf("Search for all from Choi (if found, print all information about the persons)_Start\n");
 
+    search_LinkedList_Name(info); // 연결 리스트로 출력
+    printf("Search for all from Choi (if found, print all information about the persons)_End\n");
     /*
-        허혁
+       201835242 허혁
         Search for all from Gachon University (if found, print all information about the persons). - in the array
     */
+    printf("================================\n");
+    printf("Search for all from Gachon University (if found, print all information about the persons)_Start\n");
+
+    search_Array_Org(info);
+    printf("Search for all from Gachon University (if found, print all information about the persons)_End\n");
 
     /*
         202033762 장민호
@@ -105,14 +121,9 @@ int main()
     printf("Search for all from Gachon University (if found, print all information about the persons)_End\n");
 
     /*
-        김태은
-        Sort the data in the array in tag# order
-    */
-
-    /*
         202033762 장민호
         Sort the data in the array in age order
-     */
+    */
     printf("================================\n");
     printf("배열 나이순 정렬_Start\n");
 
@@ -123,23 +134,40 @@ int main()
 
     /*
         김태은
+        Sort the data in the array in tag# order
+    */
+    printf("================================\n");
+
+    printf("배열 태그순 정렬 start\n");
+    tag_sort(info);
+    printArr(info);
+    printf("배열 태그순 정렬 end\n");
+
+    /*
+        202033762 장민호
         Create a linked list using the sorted data.
     */
+    printf("================================\n");
+    printf("Create a linked list using the sorted data._Start\n");
+
+    List tempList;
+    list_init(&tempList);
+    for (int i = 0; i < len; i++)
+    {
+        list_insert(&tempList, info[i]);
+    }
+    printList(&tempList);
+
+    printf("Create a linked list using the sorted data._End\n");
 
     /*
         김태은
         Sort the data in the array in age group order (using selection sort)
     */
-
-    /*
-        이상윤
-        Write the sorted data to a text file.
-    */
-
-    /*
-       이상윤
-       All “Choi”s canceled registration. Remove the data from the array
-   */
+    printf("================================\n");
+    printf("배열 나이대 그룹화 파일생성_Start\n");
+    ageGroup_sort(info);
+    printf("배열 나이대 그룹화 파일생성_End\n");
 
     /*
         202033762 장민호
@@ -153,11 +181,6 @@ int main()
     printf("All 'Choi's canceled registration. Remove the data from in the linked list_End\n");
 
     /*
-       이상윤
-       One “Paik” registered late. Add the data to in the array
-    */
-
-    /*
         202033762 장민호
         One “Paik” registered late. Add the data to in the linked list
     */
@@ -169,6 +192,17 @@ int main()
     printList(&pList);
 
     printf("One “Paik” registered late. Add the data to in the linked list_End\n");
+
+    /*
+        이상윤
+        Write the sorted data to a text file.
+    */
+
+    // 지정된 경로파일에 저장 -구조체 배열로 만들었을 때
+    fileWrite_array(info);
+
+    // 지정된 경로파일에 저장 -링크드리스트로 만들었을 때
+    fileWrite_linkedList(&pList);
 
     return 0;
 }

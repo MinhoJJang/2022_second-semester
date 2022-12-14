@@ -1,0 +1,7 @@
+5/2020-6-12/yes/Chunyong Park/48/University of Cambridge/student
+9/2020-6-16/yes/Kyungmin Kim/45/University of Sydney/marketer
+14/2020-8-15/yes/Kwangsu Cho/48/Gachon University/executive
+24/2020-7-24/no/Stefan Wilkerson/48/University of Melbourne/executive
+27/2020-8-24/no/Konner French/42/Gachon University/professor
+28/2020-8-27/no/Kwangsu Park/43/University of Pennsylvania/student
+30/2020-7-13/yes/Kyungmin Choi/44/Duke University/student

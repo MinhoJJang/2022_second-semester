@@ -1,0 +1,5 @@
+1/2020-8-25/yes/Jihu Choi/74/Harvard University/engineer
+4/2020-7-3/no/Jihu Cho/71/Tsinghua University/engineer
+7/2020-6-28/yes/Jihu Park/70/Australian National University/student
+17/2020-8-14/no/Chunyong Chang/75/Gachon University/student
+23/2020-6-15/yes/Seungmin Cho/71/Stanford University/professor

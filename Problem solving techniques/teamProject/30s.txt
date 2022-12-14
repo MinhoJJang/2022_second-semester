@@ -1,0 +1,8 @@
+2/2020-8-22/no/Seungmin Choi/31/Gachon University/staff
+6/2020-6-4/yes/Bobby Anderson/33/McGill University/engineer
+10/2020-6-6/yes/William Cohen/37/University of Cambridge/engineer
+16/2020-8-16/yes/Tongbang Kim/39/Tsinghua University/student
+18/2020-6-14/no/Tongbang Park/32/New York University/engineer
+19/2020-6-7/yes/Chunyong Kim/34/Harvard University/staff
+21/2020-7-21/yes/Jude Smith/38/Cornell University/executive
+29/2020-6-8/yes/Bailey Houghton/31/Gachon University/engineer
