@@ -69,7 +69,7 @@ void list_init(List *pList)
     pList->pHead->pNext = NULL;
     pList->pTail = pList->pHead;
     pList->numData = 0;
-    printf("리스트 초기화\n");
+    // printf("리스트 초기화\n");
 }
 
 // 202033762 장민호
@@ -487,14 +487,14 @@ bool Has_substring(char *string, char *target)
     - in the Array
 */
 void search_Arr_Name(PersonInfo testArr[])
-{                             // 하나씩 서치하면서 Choi 와 같은 문자가 있으면 Array 에 저장
-    PersonInfo choi_array[5]; // Choi 씨를 찾으면 담는 배열, 즉 검색해서 같은 단어가 있으면 담는 배열
-    char keyWord[20];         // 검색할 단어를 입력받을 배열
+{                               // 하나씩 서치하면서 Choi 와 같은 문자가 있으면 Array 에 저장
+    PersonInfo choi_array[LEN]; // Choi 씨를 찾으면 담는 배열, 즉 검색해서 같은 단어가 있으면 담는 배열
+    char keyWord[20] = "Choi";  // 검색할 단어를 입력받을 배열
     int i = 0;
     int index = 0;
-    printf("키워드 입력 => "); // 여기선 Choi를 입력
-    scanf("%s", keyWord);      // 검색할 단어를 입력
-    while (i < 5)
+    // printf("키워드 입력 => "); // 여기선 Choi를 입력
+    // scanf("%s", keyWord);      // 검색할 단어를 입력
+    while (i < LEN)
     { // 테스트하는 배열의 갯수가 5개
         if (Has_substring(testArr[i].name, keyWord))
         {                                           // 키워드를 이름으로 탐색
@@ -522,39 +522,23 @@ void search_Arr_Name(PersonInfo testArr[])
     Search for all from Choi (if found, print all information about the persons).
     - in the Linked List
 */
-void search_LinkedList_Name(PersonInfo testArr[])
+PersonInfo *list_search_name(List *pList, char key[])
 { // 하나씩 서치하면서 Choi 와 같은 문자가 있으면 LinkedList 에 저장
-    PersonInfo choi_List[5];
-    char KeyWord[20] = {0};
-    int i = 0;
-    int index = 0;
-    printf("키워드 입력 => "); // Choi 입력
-    scanf("%s", KeyWord);
-    //	연결 리스트를 탐색 ( 이 코드에선 TestArr 탐색 )
-    while (i < 5)
+    int idx = 0;
+    static PersonInfo returnPersonInfo[LEN]; // 반환할 배열 선언
+
+    list_init_iter(pList);      // pCurrent 맨 처음으로 돌림
+    while (list_hasNext(pList)) // 다음 노드가 존재한다면
     {
-        if (Has_substring(testArr[i].name, KeyWord))
-        {                                          // 키워드를 이름으로 탐색
-            choi_List[index].tag = testArr[i].tag; // 배열에서 다른 배열
-            choi_List[index].year = testArr[i].year;
-            choi_List[index].month = testArr[i].month;
-            choi_List[index].day = testArr[i].day;
-            strcpy(choi_List[index].answer, testArr[i].answer);
-            strcpy(choi_List[index].name, testArr[i].name);
-            choi_List[index].age = testArr[i].age;
-            strcpy(choi_List[index].organization, testArr[i].organization);
-            strcpy(choi_List[index].job, testArr[i].job);
-            index++;
+        if (strstr(pList->pCurrent->pNext->data.name, key) != NULL) // 만약 같으면
+        {
+            returnPersonInfo[idx] = pList->pCurrent->pNext->data;
+            idx++;
+            // 해당 정보를 returnInfo에 저장한다.
         }
-        i++;
+        pList->pCurrent = pList->pCurrent->pNext;
     }
-    Node *head = (Node *)malloc(sizeof(Node)); // head Node는 값이 없는 더미 Node
-    head->pNext = NULL;
-    for (int i = 0; i < index; i++)
-    { // 찾은 Choi의 노드 수만큼 노드 추가
-        AddNode(head, &choi_List[i]);
-    }
-    DisplayAllData(head); // 출력
+    return returnPersonInfo;
 }
 
 /*
@@ -564,14 +548,14 @@ void search_LinkedList_Name(PersonInfo testArr[])
 */
 void search_Array_Org(PersonInfo testArr[])
 { // 하나씩 서치하면서 Gachon University 와 같은 문자가 있으면 Array 에 저장
-    PersonInfo gachon_University_Array[5];
-    char KeyWord[20] = {0};
+    PersonInfo gachon_University_Array[LEN];
+    char KeyWord[20] = "Gachon University";
     int i = 0;
     int index = 0;
-    printf("키워드 입력 => "); // Gachon University 입력
-    scanf("%s", KeyWord);
+    // printf("키워드 입력 => "); // Gachon University 입력
+    // scanf("%s", KeyWord);
     //	연결 리스트를 탐색
-    while (i < 5)
+    while (i < LEN)
     {
         if (Has_substring(testArr[i].organization, KeyWord))
         { //	키워드를 조직으로 탐색
@@ -618,7 +602,6 @@ void fileRead()
         {
             i = 0;
             fgets(buffer, 1000, inFile);
-            char *context;
             // token = strtok(buffer, "/-", &context); // 띄어쓰기를 기준으로 토큰을 나눈다.
             token = strtok(buffer, "/-");
             while (token != NULL)

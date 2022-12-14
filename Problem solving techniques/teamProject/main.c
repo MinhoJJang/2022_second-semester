@@ -80,7 +80,7 @@ int main()
     /*
            201835242 허혁
             Search for “Choi” (if found, print all information about the persons) - in the array
-        */
+    */
     printf("================================\n");
     printf("Search for all from Choi (if found, print all information about the persons)_Start\n");
 
@@ -89,6 +89,7 @@ int main()
 
     search_Arr_Name(info); // Search 후 Arr
     printf("Search for all from Choi (if found, print all information about the persons)_End\n");
+
     /*
        201835242 허혁
         Search for “Choi” (if found, print all information about the persons) - in the linked list
@@ -96,8 +97,13 @@ int main()
     printf("================================\n");
     printf("Search for all from Choi (if found, print all information about the persons)_Start\n");
 
-    search_LinkedList_Name(info); // 연결 리스트로 출력
+    PersonInfo searchedInfo1[LEN];
+    memcpy(searchedInfo1, list_search_name(&pList, "Choi"), sizeof(searchedInfo1));
+    printArr(searchedInfo1);
+
+    // search_LinkedList_Name(info); // 연결 리스트로 출력
     printf("Search for all from Choi (if found, print all information about the persons)_End\n");
+
     /*
        201835242 허혁
         Search for all from Gachon University (if found, print all information about the persons). - in the array
